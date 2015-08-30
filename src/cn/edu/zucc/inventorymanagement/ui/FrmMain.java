@@ -23,7 +23,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import cn.edu.zucc.inventorymanagement.control.HouseManager;
 import cn.edu.zucc.inventorymanagement.control.WorkerManager;
+import cn.edu.zucc.inventorymanagement.model.House;
+import cn.edu.zucc.inventorymanagement.util.BaseException;
 
 
 public class FrmMain extends JFrame implements ActionListener
@@ -59,9 +62,9 @@ public class FrmMain extends JFrame implements ActionListener
 	private FrmLogin dlgLogin = null;
 	private JPanel statusBar = new JPanel();
 
-	private Object tblProjectTitle[] =
-	{ "编号", "项目名称", "创建时间", "收入数", "支出数", "总额" };
-	private Object tblProjectData[][];
+	private Object tblHouseTitle[] =
+	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
+	private Object tblHouseData[][];
 	DefaultTableModel tabProjectModel = new DefaultTableModel();
 	private JTable dataProjectType = new JTable(tabProjectModel);
 
@@ -71,34 +74,30 @@ public class FrmMain extends JFrame implements ActionListener
 	DefaultTableModel tabItemModel = new DefaultTableModel();
 	private JTable dataTableItem = new JTable(tabItemModel);
 
-//	List<Project> pro = null;
+	List<House> houseList = null;
 //	List<IncomeItem> incomeItem = null;
 //	List<PaymentItem> paymentItem = null;
 
-/*	private void reloadProjectTable()
+	private void reloadHouseTable()
 	{
-		// 重新加载项目信息
-		pro = (new ProjectManager().loadProject(UserManager.currentUser
-				.getUserId()));
-		tblProjectData = new Object[pro.size()][6];
-		for (int i = 0; i < pro.size(); i++)
+		// 重新加载仓库信息
+		houseList = (new HouseManager()).loadAllHouse();
+		tblHouseData = new Object[houseList.size()][6];
+		for (int i = 0; i < houseList.size(); i++)
 		{
-			tblProjectData[i][0] = pro.get(i).getProjectId();
-			tblProjectData[i][1] = pro.get(i).getProjectName();
-			tblProjectData[i][2] = pro.get(i).getCreateDate();
-			tblProjectData[i][3] = (new IncomeItemManager()).countIncomeNum(pro
-					.get(i).getProjectId());
-			tblProjectData[i][4] = (new PaymentItemManager())
-					.countPaymentNum(pro.get(i).getProjectId());
-			tblProjectData[i][5] = (new ProjectManager())
-					.countProjectAmount(pro.get(i).getProjectId());
+			tblHouseData[i][0] = houseList.get(i).getHouseId();
+			tblHouseData[i][1] = houseList.get(i).getHouseName();
+			tblHouseData[i][2] = houseList.get(i).getTotalAmount();
+			tblHouseData[i][3] = houseList.get(i).getTotalPrice();
+			tblHouseData[i][4] = houseList.get(i).getHouseState();
+			tblHouseData[i][5] = "更多";
 		}
-		tabProjectModel.setDataVector(tblProjectData, tblProjectTitle);
+		tabProjectModel.setDataVector(tblHouseData, tblHouseTitle);
 		this.dataProjectType.validate();
 		this.dataProjectType.repaint();
 	}
 
-	private void reloadItemTabel()
+/*	private void reloadItemTabel()
 	{
 		int i = this.dataProjectType.getSelectedRow();
 		if (i < 0)
@@ -230,7 +229,7 @@ public class FrmMain extends JFrame implements ActionListener
 					return;
 				}
 				int projectId = Integer
-						.parseInt(FrmMain.this.tblProjectData[i][0].toString());
+						.parseInt(FrmMain.this.tblHouseData[i][0].toString());
 //				FrmMain.this.reloadItemTabel();
 			}
 
@@ -238,7 +237,7 @@ public class FrmMain extends JFrame implements ActionListener
 		this.getContentPane().add(new JScrollPane(this.dataTableItem),
 				BorderLayout.CENTER);
 
-//		this.reloadProjectTable();
+		this.reloadHouseTable();
 		// 状态栏
 		statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel label = new JLabel("您好! " + WorkerManager.currentWorker.getWorkerName());// 您好！+登陆用户名

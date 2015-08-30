@@ -2,6 +2,7 @@ package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.House;
@@ -55,27 +56,33 @@ public class HouseManager
 		}
 	}
 
-/*	public List<House> searchHouseByUserId(int userId) throws BaseException
+	public List<House> loadAllHouse()
 	{
-		// 通过userId在数据库中查询项目
 		List<House> result = new ArrayList<House>();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from House where userId = '" + userId + "' ";
-			sql += " and deleteDate is null ";
-			sql += " order by userid";
+			sql = "select * from House ";
+			sql += " order by houseId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
 				House house = new House();
 				house.setHouseId(rs.getInt(1));
-				house.setUserId(rs.getInt(2));
-				house.setHouseName(rs.getString(3));
-				house.setCreateDate(rs.getDate(4));
+				house.setHouseName(rs.getString(2));
+				house.setHouseAddress(rs.getString(3));
+				house.setLinkman(rs.getString(4));
+				house.setLinkPhone(rs.getInt(5));
+				house.setTotalAmount(rs.getFloat(6));
+				house.setHouseType(rs.getString(7));
+				house.setTotalPrice(rs.getFloat(8));
+				house.setHouseState(rs.getString(9));
+				house.setLastCheckDate(rs.getDate(10));
+				house.setHouseNote(rs.getString(11));
+				house.setHouseLevel(rs.getInt(12));
 				result.add(house);
 			}
 		}
@@ -98,7 +105,7 @@ public class HouseManager
 		}
 		return result;
 	}
-*/
+
 /*	public House searchHouseByHouseId(int houseId) throws BaseException
 	{
 		// 通过housejectId在数据库中查询项目
