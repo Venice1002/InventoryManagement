@@ -7,6 +7,7 @@ import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.House;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
+import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
 public class HouseManager
@@ -106,27 +107,35 @@ public class HouseManager
 		return result;
 	}
 
-/*	public House searchHouseByHouseId(int houseId) throws BaseException
+	public House searchHouseByHouseId(int houseId) throws BaseException
 	{
-		// 通过housejectId在数据库中查询项目
+		// 通过houseId在数据库中查询项目
 		House result = new House();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from House where housejectId = '" + houseId
+			sql = "select * from House where houseId = '" + houseId
 					+ "' ";
-			sql += " and deleteDate is null ";
-			sql += " order by housejectId";
+			sql += " order by houseId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			if (rs.next())
 			{
 				House house = new House();
 				house.setHouseId(rs.getInt(1));
-				house.setUserId(rs.getInt(2));
-				house.setHouseName(rs.getString(3));
+				house.setHouseName(rs.getString(2));
+				house.setHouseAddress(rs.getString(3));
+				house.setLinkman(rs.getString(4));
+				house.setLinkPhone(rs.getInt(5));
+				house.setTotalAmount(rs.getFloat(6));
+				house.setHouseType(rs.getString(7));
+				house.setTotalPrice(rs.getFloat(8));
+				house.setHouseState(rs.getString(9));
+				house.setLastCheckDate(rs.getDate(10));
+				house.setHouseNote(rs.getString(11));
+				house.setHouseLevel(rs.getInt(12));
 				result = house;
 			}
 		}
@@ -153,25 +162,33 @@ public class HouseManager
 	public List<House> searchHouseByHouseName(String keyword)
 			throws BaseException
 	{
-		// 通过housejectName在数据库中查询项目
+		// 通过houseName在数据库中查询项目
 		List<House> result = new ArrayList<House>();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from House where housejectName = '" + keyword
+			sql = "select * from House where houseName = '" + keyword
 					+ "' ";
-			sql += " and deleteDate is null ";
-			sql += " order by housejectId";
+			sql += " order by houseId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
 				House house = new House();
 				house.setHouseId(rs.getInt(1));
-				house.setUserId(rs.getInt(2));
-				house.setHouseName(rs.getString(3));
+				house.setHouseName(rs.getString(2));
+				house.setHouseAddress(rs.getString(3));
+				house.setLinkman(rs.getString(4));
+				house.setLinkPhone(rs.getInt(5));
+				house.setTotalAmount(rs.getFloat(6));
+				house.setHouseType(rs.getString(7));
+				house.setTotalPrice(rs.getFloat(8));
+				house.setHouseState(rs.getString(9));
+				house.setLastCheckDate(rs.getDate(10));
+				house.setHouseNote(rs.getString(11));
+				house.setHouseLevel(rs.getInt(12));
 				result.add(house);
 			}
 		}
@@ -202,7 +219,7 @@ public class HouseManager
 		try
 		{
 			conn = DBUtil.getConnection();
-			String sql = "select * from House where housejectId=?";
+			String sql = "select * from House where houseId=?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setInt(1, house.getHouseId());
 			java.sql.ResultSet rs = pst.executeQuery();
@@ -210,7 +227,8 @@ public class HouseManager
 				throw new BusinessException("不存在");
 			rs.close();
 			pst.close();
-			sql = "update House set housejectName=? where housejectId=?";
+			//目前只支持修改仓库名称
+			sql = "update House set housejectName=? where houseId=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, house.getHouseName());
 			pst.setInt(2, house.getHouseId());
@@ -236,27 +254,23 @@ public class HouseManager
 		}
 	}
 
-	public void deleteHouse(int housejectId)
+	public void deleteHouse(int houseId)
 	{
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
-			String sql = "select * from House where housejectId=?";
+			String sql = "select * from House where houseId=?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, housejectId);
+			pst.setInt(1, houseId);
 			java.sql.ResultSet rs = pst.executeQuery();
 			if (!rs.next())
-				throw new BusinessException("项目不存在");
-			if (rs.getDate("deleteDate") != null)
-				throw new BusinessException("项目已经注销");
+				throw new BusinessException("仓库不存在");
 			rs.close();
 			pst.close();
-			sql = "update House set deleteDate=? where housejectId=?";
+			sql = "delete from House where houseId=?";
 			pst = conn.prepareStatement(sql);
-			pst.setTimestamp(1,
-					new java.sql.Timestamp(System.currentTimeMillis()));
-			pst.setInt(2, housejectId);
+			pst.setInt(1, houseId);
 			pst.execute();
 			pst.close();
 		}
@@ -283,5 +297,5 @@ public class HouseManager
 					e.printStackTrace();
 				}
 		}
-	}*/
+	}
 }
