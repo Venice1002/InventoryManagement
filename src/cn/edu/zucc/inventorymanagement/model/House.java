@@ -12,10 +12,10 @@ import java.sql.Date;
 	private String houseAddress;
 	private String linkman;
 	private int linkPhone;
-	private String totalAmount;
+	private float totalAmount;
 	private String houseType;
-	private String totalPrice;
-	private String hosueState;
+	private float totalPrice;
+	private String houseState;
 	private Date lastCheckDate;
 	private String houseNote;
 	private int houseLevel;
@@ -50,10 +50,10 @@ import java.sql.Date;
 	public void setLinkPhone(int linkPhone){
 		this.linkPhone=linkPhone;
 	}
-	public String getTotalAmount(){
+	public float getTotalAmount(){
 		return this.totalAmount;
 	}
-	public void setTotalAmount(String totalAmount){
+	public void setTotalAmount(float totalAmount){
 		this.totalAmount=totalAmount;
 	}
 	public String getHouseType(){
@@ -62,17 +62,17 @@ import java.sql.Date;
 	public void setHouseType(String houseType){
 		this.houseType=houseType;
 	}
-	public String getTotalPrice(){
+	public float getTotalPrice(){
 		return this.totalPrice;
 	}
-	public void setTotalPrice(String totalPrice){
+	public void setTotalPrice(float totalPrice){
 		this.totalPrice=totalPrice;
 	}
-	public String getHosueState(){
-		return this.hosueState;
+	public String getHouseState(){
+		return this.houseState;
 	}
-	public void setHosueState(String hosueState){
-		this.hosueState=hosueState;
+	public void setHouseState(String houseState){
+		this.houseState=houseState;
 	}
 	public Date getLastCheckDate(){
 		return this.lastCheckDate;

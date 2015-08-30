@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import cn.edu.zucc.inventorymanagement.model.Worker;
-import cn.edu.zucc.inventorymanagement.util.BaseException;
 import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
-import cn.edu.zucc.inventorymanagement.util.DbException;
 
 public class WorkerManager
 {

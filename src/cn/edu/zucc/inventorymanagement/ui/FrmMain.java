@@ -258,5 +258,10 @@ public class FrmMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		// TODO Auto-generated method stub
+		if(e.getSource() == menuItem_AddHouse)
+		{
+			FrmHouse_Add dlg = new FrmHouse_Add(this, "ÐÂ½¨²Ö¿â", true);
+			dlg.setVisible(true);
+		}
 	}
 }
