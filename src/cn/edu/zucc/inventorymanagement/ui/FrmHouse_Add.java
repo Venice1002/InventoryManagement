@@ -42,9 +42,9 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 	private JTextField edtHouseLevel = new JTextField(20);
 	private JTextField edtHouseNote = new JTextField(20);
 
-	public FrmHouse_Add(FrmHouseManage frmHouseManage, String s, boolean b)
+	public FrmHouse_Add(FrmHouseManager frmHouseManager, String s, boolean b)
 	{
-		super(frmHouseManage, "新建仓库", b);
+		super(frmHouseManager, "新建仓库", b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);

@@ -14,7 +14,7 @@ public class HouseManager
 {
 	public void createHouse(House house) throws BaseException
 	{
-		// 创建项目
+		// 创建仓库
 		Connection conn = null;
 		try
 		{
@@ -109,7 +109,7 @@ public class HouseManager
 
 	public House searchHouseByHouseId(int houseId) throws BaseException
 	{
-		// 通过houseId在数据库中查询项目
+		// 通过houseId在数据库中查询仓库
 		House result = new House();
 		Connection conn = null;
 		try
@@ -161,7 +161,7 @@ public class HouseManager
 	public List<House> searchHouseByHouseName(String keyword)
 			throws BaseException
 	{
-		// 通过houseName在数据库中查询项目
+		// 通过houseName在数据库中查询仓库
 		List<House> result = new ArrayList<House>();
 		Connection conn = null;
 		try
@@ -212,7 +212,7 @@ public class HouseManager
 
 	public void modifyHouse(House house) throws BaseException
 	{
-		// 修改项目
+		// 修改仓库
 		Connection conn = null;
 		try
 		{

@@ -45,9 +45,9 @@ public class FrmHouse_Modify extends JDialog implements ActionListener
 	//原始仓库信息
 	private House originHouse = null;
 
-	public FrmHouse_Modify(FrmHouseManage frmHouseManage, String s, boolean b, House house)
+	public FrmHouse_Modify(FrmHouseManager frmHouseManager, String s, boolean b, House house)
 	{
-		super(frmHouseManage, "修改仓库", b);
+		super(frmHouseManager, "修改仓库", b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
