@@ -18,7 +18,7 @@ import cn.edu.zucc.inventorymanagement.control.HouseManager;
 import cn.edu.zucc.inventorymanagement.model.House;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 
-public class FrmHouse_Add extends JDialog implements ActionListener
+public class FrmHouse_Modify extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
@@ -41,10 +41,13 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 	private JTextField edtHouseState = new JTextField(20);
 	private JTextField edtHouseLevel = new JTextField(20);
 	private JTextField edtHouseNote = new JTextField(20);
+	
+	//原始仓库信息
+	private House originHouse = null;
 
-	public FrmHouse_Add(FrmHouseManage frmHouseManage, String s, boolean b)
+	public FrmHouse_Modify(FrmHouseManage frmHouseManage, String s, boolean b, House house)
 	{
-		super(frmHouseManage, "新建仓库", b);
+		super(frmHouseManage, "修改仓库", b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
@@ -53,8 +56,12 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 		labelHouseName.setBounds(24, 40, 70, 14);
 		workPane.add(labelHouseName);
 		edtHouseName.setBounds(89, 37, 100, 20);
+		edtHouseName.setText(house.getHouseName());
 		workPane.add(edtHouseName);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
+		
+		//传入原始仓库的信息
+		originHouse = house;
 		
 		labelHouseAddress.setBounds(24, 70, 70, 14);
 		workPane.add(labelHouseAddress);
@@ -78,24 +85,31 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 		workPane.add(labelHouseNote);
 		
 		edtHouseAddress.setBounds(89, 67, 100, 20);
+		edtHouseAddress.setText(house.getHouseAddress());
 		workPane.add(edtHouseAddress);
 		
 		edtLinkman.setBounds(89, 97, 100, 20);
+		edtLinkman.setText(house.getLinkman());
 		workPane.add(edtLinkman);
 		
 		edtLinkPhone.setBounds(89, 127, 100, 20);
+		edtLinkPhone.setText(String.valueOf(house.getLinkPhone()));
 		workPane.add(edtLinkPhone);
 		
 		edtHouseType.setBounds(283, 97, 100, 20);
+		edtHouseType.setText(house.getHouseType());
 		workPane.add(edtHouseType);
 		
 		edtHouseState.setBounds(283, 37, 100, 20);
+		edtHouseState.setText(house.getHouseState());
 		workPane.add(edtHouseState);
 		
 		edtHouseLevel.setBounds(283, 67, 100, 20);
+		edtHouseLevel.setText(String.valueOf(house.getHouseLevel()));
 		workPane.add(edtHouseLevel);
 		
 		edtHouseNote.setBounds(283, 127, 100, 20);
+		edtHouseNote.setText(house.getHouseNote());
 		workPane.add(edtHouseNote);
 		this.setSize(440, 250);
 		// 屏幕居中显示
@@ -121,6 +135,11 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 		else if (e.getSource() == this.btnOk)
 		{
 			House house = new House();
+			//原有的三个属性
+			house.setHouseId(originHouse.getHouseId());
+			house.setTotalAmount(originHouse.getTotalAmount());
+			house.setTotalPrice(originHouse.getTotalPrice());
+			//可以修改的其他属性
 			house.setHouseName(edtHouseName.getText());
 			house.setHouseAddress(edtHouseAddress.getText());
 			house.setLinkman(edtLinkman.getText());
@@ -132,7 +151,7 @@ public class FrmHouse_Add extends JDialog implements ActionListener
 			HouseManager hm = new HouseManager();
 			try
 			{
-				hm.createHouse(house);
+				hm.modifyHouse(house);
 			}
 			catch (BaseException e1)
 			{

@@ -33,20 +33,20 @@ public class FrmMain extends JFrame implements ActionListener
 {
 	private JMenuBar menubar = new JMenuBar();;
 	private JMenu menu_system = new JMenu("系统管理");
-	private JMenu menu_house = new JMenu("仓库管理");
-	private JMenu menu_goods = new JMenu("物料管理");
+	private JMenu menu_houseAndGoods = new JMenu("仓库/物料管理");
+//	private JMenu menu_goods = new JMenu("物料管理");
 	private JMenu menu_store = new JMenu("库存管理");
 	private JMenu menu_list = new JMenu("清单管理");
 	private JMenu menu_static = new JMenu("查询统计");
 	private JMenu menu_more = new JMenu("更多");
 
-	private JMenuItem menuItem_UserManage = new JMenuItem("用户管理");
-	private JMenuItem menuItem_AddHouse = new JMenuItem("新建仓库");
-	private JMenuItem menuItem_ModifyHouse = new JMenuItem("修改仓库");
-	private JMenuItem menuItem_DeleteHouse = new JMenuItem("删除仓库");
-	private JMenuItem menuItem_AddGoods = new JMenuItem("新建物料");
-	private JMenuItem menuItem_ModifyGoods = new JMenuItem("修改物料");
-	private JMenuItem menuItem_DeleteGoods = new JMenuItem("删除物料");
+	private JMenuItem menuItem_WorkerManage = new JMenuItem("用户管理");
+	private JMenuItem menuItem_HouseManage = new JMenuItem("仓库管理");
+	private JMenuItem menuItem_GoodsManage = new JMenuItem("物料管理");
+//	private JMenuItem menuItem_DeleteHouse = new JMenuItem("删除仓库");
+//	private JMenuItem menuItem_AddGoods = new JMenuItem("新建物料");
+//	private JMenuItem menuItem_ModifyGoods = new JMenuItem("修改物料");
+//	private JMenuItem menuItem_DeleteGoods = new JMenuItem("删除物料");
 	private JMenuItem menuItem_StoreCheck = new JMenuItem("库存盘查");
 	private JMenuItem menuItem_EnterList = new JMenuItem("入库清单");
 	private JMenuItem menuItem_ExitList = new JMenuItem("出库清单");
@@ -65,8 +65,8 @@ public class FrmMain extends JFrame implements ActionListener
 	private Object tblHouseTitle[] =
 	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
 	private Object tblHouseData[][];
-	DefaultTableModel tabProjectModel = new DefaultTableModel();
-	private JTable dataProjectType = new JTable(tabProjectModel);
+	DefaultTableModel tabHouseModel = new DefaultTableModel();
+	private JTable dataHouse = new JTable(tabHouseModel);
 
 	private Object tblItemTitle[] =
 	{ "编号", "摘要", "金额", "时间", "类别", "具体类型" };
@@ -92,9 +92,9 @@ public class FrmMain extends JFrame implements ActionListener
 			tblHouseData[i][4] = houseList.get(i).getHouseState();
 			tblHouseData[i][5] = "更多";
 		}
-		tabProjectModel.setDataVector(tblHouseData, tblHouseTitle);
-		this.dataProjectType.validate();
-		this.dataProjectType.repaint();
+		tabHouseModel.setDataVector(tblHouseData, tblHouseTitle);
+		this.dataHouse.validate();
+		this.dataHouse.repaint();
 	}
 
 /*	private void reloadItemTabel()
@@ -167,22 +167,22 @@ public class FrmMain extends JFrame implements ActionListener
 //		FrmMonthStatic dlg = new FrmMonthStatic(this, "本月统计", true);
 //		dlg.setVisible(true);
 		// 菜单
-		this.menu_system.add(this.menuItem_UserManage);
-		this.menuItem_UserManage.addActionListener(this);
+		this.menu_system.add(this.menuItem_WorkerManage);
+		this.menuItem_WorkerManage.addActionListener(this);
 
-		this.menu_house.add(this.menuItem_AddHouse);
-		this.menuItem_AddHouse.addActionListener(this);
-		this.menu_house.add(this.menuItem_ModifyHouse);
-		this.menuItem_ModifyHouse.addActionListener(this);
-		this.menu_house.add(this.menuItem_DeleteHouse);
-		this.menuItem_DeleteHouse.addActionListener(this);
-		
-		this.menu_goods.add(this.menuItem_AddGoods);
-		this.menuItem_AddGoods.addActionListener(this);
-		this.menu_goods.add(this.menuItem_ModifyGoods);
-		this.menuItem_ModifyGoods.addActionListener(this);
-		this.menu_goods.add(this.menuItem_DeleteGoods);
-		this.menuItem_DeleteGoods.addActionListener(this);
+		this.menu_houseAndGoods.add(this.menuItem_HouseManage);
+		this.menuItem_HouseManage.addActionListener(this);
+		this.menu_houseAndGoods.add(this.menuItem_GoodsManage);
+		this.menuItem_GoodsManage.addActionListener(this);
+//		this.menu_house.add(this.menuItem_DeleteHouse);
+//		this.menuItem_DeleteHouse.addActionListener(this);
+//		
+//		this.menu_goods.add(this.menuItem_AddGoods);
+//		this.menuItem_AddGoods.addActionListener(this);
+//		this.menu_goods.add(this.menuItem_ModifyGoods);
+//		this.menuItem_ModifyGoods.addActionListener(this);
+//		this.menu_goods.add(this.menuItem_DeleteGoods);
+//		this.menuItem_DeleteGoods.addActionListener(this);
 		
 		this.menu_store.add(this.menuItem_StoreCheck);
 		this.menuItem_StoreCheck.addActionListener(this);
@@ -207,23 +207,23 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menuItem_modifyPwd.addActionListener(this);
 		
 		menubar.add(menu_system);
-		menubar.add(menu_house);
-		menubar.add(menu_goods);
+		menubar.add(menu_houseAndGoods);
+//		menubar.add(menu_goods);
 		menubar.add(menu_store);
 		menubar.add(menu_list);
 		menubar.add(menu_static);
 		menubar.add(menu_more);
 		this.setJMenuBar(menubar);
 
-		this.getContentPane().add(new JScrollPane(this.dataProjectType),
+		this.getContentPane().add(new JScrollPane(this.dataHouse),
 				BorderLayout.WEST);
-		this.dataProjectType.addMouseListener(new MouseAdapter()
+		this.dataHouse.addMouseListener(new MouseAdapter()
 		{
 
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				int i = FrmMain.this.dataProjectType.getSelectedRow();
+				int i = FrmMain.this.dataHouse.getSelectedRow();
 				if (i < 0)
 				{
 					return;
@@ -257,9 +257,9 @@ public class FrmMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		// TODO Auto-generated method stub
-		if(e.getSource() == menuItem_AddHouse)
+		if(e.getSource() == menuItem_HouseManage)
 		{
-			FrmHouse_Add dlg = new FrmHouse_Add(this, "新建仓库", true);
+			FrmHouseManage dlg = new FrmHouseManage(this, "仓库管理", true);
 			dlg.setVisible(true);
 		}
 	}

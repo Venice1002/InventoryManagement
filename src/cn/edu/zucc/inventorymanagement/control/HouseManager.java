@@ -24,8 +24,8 @@ public class HouseManager
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, house.getHouseName());
 			pst.setString(2, house.getHouseAddress());
-//			pst.setTimestamp(3,
-//					new java.sql.Timestamp(System.currentTimeMillis()));
+			// pst.setTimestamp(3,
+			// new java.sql.Timestamp(System.currentTimeMillis()));
 			pst.setString(3, house.getLinkman());
 			pst.setInt(4, house.getLinkPhone());
 			pst.setFloat(5, house.getTotalAmount());
@@ -116,8 +116,7 @@ public class HouseManager
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from House where houseId = '" + houseId
-					+ "' ";
+			sql = "select * from House where houseId = '" + houseId + "' ";
 			sql += " order by houseId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
@@ -169,8 +168,7 @@ public class HouseManager
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from House where houseName = '" + keyword
-					+ "' ";
+			sql = "select * from House where houseName = '" + keyword + "' ";
 			sql += " order by houseId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
@@ -227,11 +225,22 @@ public class HouseManager
 				throw new BusinessException("不存在");
 			rs.close();
 			pst.close();
-			//目前只支持修改仓库名称
-			sql = "update House set housejectName=? where houseId=?";
+
+			sql = "update House set houseName = ?,houseAddress = ?,linkman = ?,linkPhone = ?,totalAmount = ?,houseType = ?,totalPrice = ?,houseState = ?,lastCheckDate = ?,houseNote = ?,houseLevel = ? where houseId = ?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, house.getHouseName());
-			pst.setInt(2, house.getHouseId());
+			pst.setString(2, house.getHouseAddress());
+			pst.setString(3, house.getLinkman());
+			pst.setInt(4, house.getLinkPhone());
+			pst.setFloat(5, house.getTotalAmount());
+			pst.setString(6, house.getHouseType());
+			pst.setFloat(7, house.getTotalPrice());
+			pst.setString(8, house.getHouseState());
+			pst.setDate(9, house.getLastCheckDate());
+			pst.setString(10, house.getHouseNote());
+			pst.setInt(11, house.getHouseLevel());
+			pst.setInt(12, house.getHouseId());
+			
 			pst.execute();
 			pst.close();
 		}
