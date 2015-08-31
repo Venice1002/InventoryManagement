@@ -143,7 +143,7 @@ public class FrmHouse_Modify extends JDialog implements ActionListener
 			house.setHouseName(edtHouseName.getText());
 			house.setHouseAddress(edtHouseAddress.getText());
 			house.setLinkman(edtLinkman.getText());
-			house.setLinkPhone(Integer.valueOf(edtLinkPhone.getText()));
+			house.setLinkPhone(edtLinkPhone.getText());
 			house.setHouseType(edtHouseType.getText());
 			house.setHouseState(edtHouseState.getText());
 			house.setHouseLevel(Integer.valueOf(edtHouseLevel.getText()));

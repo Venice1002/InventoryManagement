@@ -93,7 +93,7 @@ public class FrmRegister extends JDialog implements ActionListener
 			// ²¹³ä×¢²áÏà¹Ø´úÂë
 			String name = edtWorkerId.getText();
 			String password = String.valueOf(edtPwd.getPassword());
-			int phone = Integer.valueOf(textPhone.getText());
+			String phone =textPhone.getText();
 			String department = textDepartment.getText();
 			if (password.equals(String.valueOf(edtPwd2.getPassword())) != true)
 			{

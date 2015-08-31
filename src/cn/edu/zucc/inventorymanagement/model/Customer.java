@@ -8,7 +8,7 @@ package cn.edu.zucc.inventorymanagement.model;
 	private int customerId;
 	private String customerName;
 	private String customerAddress;
-	private int customerPhone;
+	private String customerPhone;
 
 	public int getCustomerId(){
 		return this.customerId;
@@ -28,10 +28,10 @@ package cn.edu.zucc.inventorymanagement.model;
 	public void setCustomerAddress(String customerAddress){
 		this.customerAddress=customerAddress;
 	}
-	public int getCustomerPhone(){
+	public String getCustomerPhone(){
 		return this.customerPhone;
 	}
-	public void setCustomerPhone(int customerPhone){
+	public void setCustomerPhone(String customerPhone){
 		this.customerPhone=customerPhone;
 	}
 

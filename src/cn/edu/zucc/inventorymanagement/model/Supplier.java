@@ -1,38 +1,54 @@
 package cn.edu.zucc.inventorymanagement.model;
 
-	/**
-	*	*@author yangsj
-	*/
+/**
+ * *@author yangsj
+ */
 
-	public class Supplier{
+public class Supplier
+{
 	private int supplierId;
 	private String supplierName;
 	private String supplierAddress;
-	private int supplierPhone;
+	private String supplierPhone;
 
-	public int getSupplierId(){
+	public int getSupplierId()
+	{
 		return this.supplierId;
 	}
-	public void setSupplierId(int supplierId){
-		this.supplierId=supplierId;
+
+	public void setSupplierId(int supplierId)
+	{
+		this.supplierId = supplierId;
 	}
-	public String getSupplierName(){
+
+	public String getSupplierName()
+	{
 		return this.supplierName;
 	}
-	public void setSupplierName(String supplierName){
-		this.supplierName=supplierName;
+
+	public void setSupplierName(String supplierName)
+	{
+		this.supplierName = supplierName;
 	}
-	public String getSupplierAddress(){
+
+	public String getSupplierAddress()
+	{
 		return this.supplierAddress;
 	}
-	public void setSupplierAddress(String supplierAddress){
-		this.supplierAddress=supplierAddress;
+
+	public void setSupplierAddress(String supplierAddress)
+	{
+		this.supplierAddress = supplierAddress;
 	}
-	public int getSupplierPhone(){
+
+	public String getSupplierPhone()
+	{
 		return this.supplierPhone;
 	}
-	public void setSupplierPhone(int supplierPhone){
-		this.supplierPhone=supplierPhone;
+
+	public void setSupplierPhone(String supplierPhone)
+	{
+		this.supplierPhone = supplierPhone;
 	}
 
 }

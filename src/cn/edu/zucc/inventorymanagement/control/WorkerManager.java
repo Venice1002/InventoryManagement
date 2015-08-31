@@ -25,7 +25,7 @@ public class WorkerManager
 			pst.setString(2, worker.getWorkerPwd());
 			pst.setInt(3, worker.getWorkerPermission());
 			pst.setString(4, worker.getWorkerDepartment());
-			pst.setInt(5, worker.getWorkerPhone());
+			pst.setString(5, worker.getWorkerPhone());
 			pst.execute();
 			pst.close();
 		}
@@ -68,7 +68,7 @@ public class WorkerManager
 				worker.setWorkerPwd(rs.getString(3));
 				worker.setWorkerPermission(rs.getInt(4));
 				worker.setWorkerDepartment(rs.getString(5));
-				worker.setWorkerPhone(rs.getInt(6));
+				worker.setWorkerPhone(rs.getString(6));
 			}
 			else
 			{

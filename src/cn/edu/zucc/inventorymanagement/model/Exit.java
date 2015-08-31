@@ -1,6 +1,6 @@
 package cn.edu.zucc.inventorymanagement.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 	/**
 	*	*@author yangsj

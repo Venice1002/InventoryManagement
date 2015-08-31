@@ -1,6 +1,7 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class GoodsManager
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, goods.getGoodsName());
 			pst.setString(2, goods.getUnit());
-			pst.setDate(3, goods.getProduceDate());
-			pst.setDate(4, goods.getLimitedDate());
+			pst.setDate(3, (Date) goods.getProduceDate());
+			pst.setDate(4, (Date) goods.getLimitedDate());
 			pst.setString(5, goods.getGoodsNote());
 			pst.setString(6, goods.getUnit());
 			pst.setString(7, goods.getManufacturer());
@@ -220,8 +221,8 @@ public class GoodsManager
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, goods.getGoodsName());
 			pst.setString(2, goods.getUnit());
-			pst.setDate(3, goods.getProduceDate());
-			pst.setDate(4, goods.getLimitedDate());
+			pst.setDate(3, (Date) goods.getProduceDate());
+			pst.setDate(4, (Date) goods.getLimitedDate());
 			pst.setString(5, goods.getGoodsNote());
 			pst.setString(6, goods.getUnit());
 			pst.setString(7, goods.getManufacturer());

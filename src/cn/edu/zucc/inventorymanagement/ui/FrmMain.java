@@ -33,7 +33,7 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenuBar menubar = new JMenuBar();;
 	private JMenu menu_system = new JMenu("系统管理");
 	private JMenu menu_houseAndGoods = new JMenu("仓库/物料管理");
-	// private JMenu menu_goods = new JMenu("物料管理");
+	private JMenu menu_supAndCus = new JMenu("供应商/客户管理");
 	private JMenu menu_store = new JMenu("库存管理");
 	private JMenu menu_list = new JMenu("清单管理");
 	private JMenu menu_static = new JMenu("查询统计");
@@ -42,8 +42,8 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenuItem menuItem_WorkerManage = new JMenuItem("用户管理");
 	private JMenuItem menuItem_HouseManage = new JMenuItem("仓库管理");
 	private JMenuItem menuItem_GoodsManage = new JMenuItem("物料管理");
-	// private JMenuItem menuItem_DeleteHouse = new JMenuItem("删除仓库");
-	// private JMenuItem menuItem_AddGoods = new JMenuItem("新建物料");
+	private JMenuItem menuItem_SupplierManage = new JMenuItem("供应商管理");
+	private JMenuItem menuItem_CunstomManage = new JMenuItem("客户管理");
 	// private JMenuItem menuItem_ModifyGoods = new JMenuItem("修改物料");
 	// private JMenuItem menuItem_DeleteGoods = new JMenuItem("删除物料");
 	private JMenuItem menuItem_StoreCheck = new JMenuItem("库存盘查");
@@ -151,8 +151,10 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menuItem_HouseManage.addActionListener(this);
 		this.menu_houseAndGoods.add(this.menuItem_GoodsManage);
 		this.menuItem_GoodsManage.addActionListener(this);
-		// this.menu_house.add(this.menuItem_DeleteHouse);
-		// this.menuItem_DeleteHouse.addActionListener(this);
+		this.menu_supAndCus.add(this.menuItem_SupplierManage);
+		this.menuItem_SupplierManage.addActionListener(this);
+		this.menu_supAndCus.add(this.menuItem_CunstomManage);
+		this.menuItem_CunstomManage.addActionListener(this);
 		//
 		// this.menu_goods.add(this.menuItem_AddGoods);
 		// this.menuItem_AddGoods.addActionListener(this);
@@ -185,7 +187,7 @@ public class FrmMain extends JFrame implements ActionListener
 
 		menubar.add(menu_system);
 		menubar.add(menu_houseAndGoods);
-		// menubar.add(menu_goods);
+		menubar.add(menu_supAndCus);
 		menubar.add(menu_store);
 		menubar.add(menu_list);
 		menubar.add(menu_static);
@@ -243,6 +245,16 @@ public class FrmMain extends JFrame implements ActionListener
 		else if (e.getSource() == menuItem_GoodsManage)
 		{
 			FrmGoodsManager dlg = new FrmGoodsManager(this, "物料管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_SupplierManage)
+		{
+			FrmSupplierManager dlg = new FrmSupplierManager(this, "供应商管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_CunstomManage)
+		{
+			FrmCustomerManager dlg = new FrmCustomerManager(this, "客户管理", true);
 			dlg.setVisible(true);
 		}
 	}

@@ -10,7 +10,7 @@ package cn.edu.zucc.inventorymanagement.model;
 	private String workerPwd;
 	private int workerPermission;
 	private String workerDepartment;
-	private int workerPhone;
+	private String workerPhone;
 
 	public int getWorkerId(){
 		return this.workerId;
@@ -42,10 +42,10 @@ package cn.edu.zucc.inventorymanagement.model;
 	public void setWorkerDepartment(String workerDepartment){
 		this.workerDepartment=workerDepartment;
 	}
-	public int getWorkerPhone(){
+	public String getWorkerPhone(){
 		return this.workerPhone;
 	}
-	public void setWorkerPhone(int workerPhone){
+	public void setWorkerPhone(String workerPhone){
 		this.workerPhone=workerPhone;
 	}
 

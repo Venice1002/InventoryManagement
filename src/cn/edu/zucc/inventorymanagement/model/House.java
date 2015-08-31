@@ -1,6 +1,6 @@
 package cn.edu.zucc.inventorymanagement.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 	/**
 	*	*@author yangsj
@@ -11,7 +11,7 @@ import java.sql.Date;
 	private String houseName;
 	private String houseAddress;
 	private String linkman;
-	private int linkPhone;
+	private String linkPhone;
 	private float totalAmount;
 	private String houseType;
 	private float totalPrice;
@@ -44,10 +44,10 @@ import java.sql.Date;
 	public void setLinkman(String linkman){
 		this.linkman=linkman;
 	}
-	public int getLinkPhone(){
+	public String getLinkPhone(){
 		return this.linkPhone;
 	}
-	public void setLinkPhone(int linkPhone){
+	public void setLinkPhone(String linkPhone){
 		this.linkPhone=linkPhone;
 	}
 	public float getTotalAmount(){

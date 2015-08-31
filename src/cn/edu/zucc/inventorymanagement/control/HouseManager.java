@@ -1,6 +1,7 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +28,12 @@ public class HouseManager
 			// pst.setTimestamp(3,
 			// new java.sql.Timestamp(System.currentTimeMillis()));
 			pst.setString(3, house.getLinkman());
-			pst.setInt(4, house.getLinkPhone());
+			pst.setString(4, house.getLinkPhone());
 			pst.setFloat(5, house.getTotalAmount());
 			pst.setString(6, house.getHouseType());
 			pst.setFloat(7, house.getTotalPrice());
 			pst.setString(8, house.getHouseState());
-			pst.setDate(9, house.getLastCheckDate());
+			pst.setDate(9, (Date) house.getLastCheckDate());
 			pst.setString(10, house.getHouseNote());
 			pst.setInt(11, house.getHouseLevel());
 			pst.execute();
@@ -76,7 +77,7 @@ public class HouseManager
 				house.setHouseName(rs.getString(2));
 				house.setHouseAddress(rs.getString(3));
 				house.setLinkman(rs.getString(4));
-				house.setLinkPhone(rs.getInt(5));
+				house.setLinkPhone(rs.getString(5));
 				house.setTotalAmount(rs.getFloat(6));
 				house.setHouseType(rs.getString(7));
 				house.setTotalPrice(rs.getFloat(8));
@@ -127,7 +128,7 @@ public class HouseManager
 				house.setHouseName(rs.getString(2));
 				house.setHouseAddress(rs.getString(3));
 				house.setLinkman(rs.getString(4));
-				house.setLinkPhone(rs.getInt(5));
+				house.setLinkPhone(rs.getString(5));
 				house.setTotalAmount(rs.getFloat(6));
 				house.setHouseType(rs.getString(7));
 				house.setTotalPrice(rs.getFloat(8));
@@ -179,7 +180,7 @@ public class HouseManager
 				house.setHouseName(rs.getString(2));
 				house.setHouseAddress(rs.getString(3));
 				house.setLinkman(rs.getString(4));
-				house.setLinkPhone(rs.getInt(5));
+				house.setLinkPhone(rs.getString(5));
 				house.setTotalAmount(rs.getFloat(6));
 				house.setHouseType(rs.getString(7));
 				house.setTotalPrice(rs.getFloat(8));
@@ -231,12 +232,12 @@ public class HouseManager
 			pst.setString(1, house.getHouseName());
 			pst.setString(2, house.getHouseAddress());
 			pst.setString(3, house.getLinkman());
-			pst.setInt(4, house.getLinkPhone());
+			pst.setString(4, house.getLinkPhone());
 			pst.setFloat(5, house.getTotalAmount());
 			pst.setString(6, house.getHouseType());
 			pst.setFloat(7, house.getTotalPrice());
 			pst.setString(8, house.getHouseState());
-			pst.setDate(9, house.getLastCheckDate());
+			pst.setDate(9, (Date) house.getLastCheckDate());
 			pst.setString(10, house.getHouseNote());
 			pst.setInt(11, house.getHouseLevel());
 			pst.setInt(12, house.getHouseId());
