@@ -8,10 +8,10 @@ package cn.edu.zucc.inventorymanagement.model;
 	private int storeId;
 	private int houseId;
 	private int goodsId;
-	private String storeAmount;
+	private float storeAmount;
 	private int batchId;
 	private String unit;
-	private String storePrice;
+	private float storePrice;
 
 	public int getStoreId(){
 		return this.storeId;
@@ -31,10 +31,10 @@ package cn.edu.zucc.inventorymanagement.model;
 	public void setGoodsId(int goodsId){
 		this.goodsId=goodsId;
 	}
-	public String getStoreAmount(){
+	public float getStoreAmount(){
 		return this.storeAmount;
 	}
-	public void setStoreAmount(String storeAmount){
+	public void setStoreAmount(float storeAmount){
 		this.storeAmount=storeAmount;
 	}
 	public int getBatchId(){
@@ -49,10 +49,10 @@ package cn.edu.zucc.inventorymanagement.model;
 	public void setUnit(String unit){
 		this.unit=unit;
 	}
-	public String getStorePrice(){
+	public float getStorePrice(){
 		return this.storePrice;
 	}
-	public void setStorePrice(String storePrice){
+	public void setStorePrice(float storePrice){
 		this.storePrice=storePrice;
 	}
 

@@ -151,11 +151,11 @@ public class GoodsManager
 		return result;
 	}
 
-	public List<Goods> searchGoodsByGoodsName(String keyword)
+	public Goods searchGoodsByGoodsName(String keyword)
 			throws BaseException
 	{
 		// 通过goodsName在数据库中查询物料
-		List<Goods> result = new ArrayList<Goods>();
+		Goods result = new Goods();
 		Connection conn = null;
 		try
 		{
@@ -178,7 +178,6 @@ public class GoodsManager
 				goods.setManufacturer(rs.getString(8));
 				goods.setGoodsLevel(rs.getInt(9));
 				goods.setGoodsVolume(rs.getString(10));
-				result.add(goods);
 			}
 		}
 		catch (SQLException e)

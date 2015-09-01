@@ -47,11 +47,11 @@ public class FrmMain extends JFrame implements ActionListener
 	// private JMenuItem menuItem_ModifyGoods = new JMenuItem("修改物料");
 	// private JMenuItem menuItem_DeleteGoods = new JMenuItem("删除物料");
 	private JMenuItem menuItem_StoreCheck = new JMenuItem("库存盘查");
-	private JMenuItem menuItem_EnterList = new JMenuItem("入库清单");
-	private JMenuItem menuItem_ExitList = new JMenuItem("出库清单");
-	private JMenuItem menuItem_ExchangeList = new JMenuItem("移库清单");
-	private JMenuItem menuItem_ReturnList = new JMenuItem("退库清单");
-	private JMenuItem menuItem_DestoryList = new JMenuItem("报废清单");
+	private JMenuItem menuItem_EnterManage = new JMenuItem("入库管理");
+	private JMenuItem menuItem_ExitManage = new JMenuItem("出库管理");
+	private JMenuItem menuItem_ExchangeManage = new JMenuItem("移库管理");
+	private JMenuItem menuItem_ReturnManage = new JMenuItem("退库管理");
+	private JMenuItem menuItem_DestoryManage = new JMenuItem("报废管理");
 
 	private JMenuItem menuItem_modifyPwd = new JMenuItem("密码修改");
 
@@ -166,16 +166,16 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menu_store.add(this.menuItem_StoreCheck);
 		this.menuItem_StoreCheck.addActionListener(this);
 
-		this.menu_list.add(this.menuItem_EnterList);
-		this.menuItem_EnterList.addActionListener(this);
-		this.menu_list.add(this.menuItem_ExitList);
-		this.menuItem_ExitList.addActionListener(this);
-		this.menu_list.add(this.menuItem_ExchangeList);
-		this.menuItem_ExchangeList.addActionListener(this);
-		this.menu_list.add(this.menuItem_ReturnList);
-		this.menuItem_ReturnList.addActionListener(this);
-		this.menu_list.add(this.menuItem_DestoryList);
-		this.menuItem_DestoryList.addActionListener(this);
+		this.menu_list.add(this.menuItem_EnterManage);
+		this.menuItem_EnterManage.addActionListener(this);
+		this.menu_list.add(this.menuItem_ExitManage);
+		this.menuItem_ExitManage.addActionListener(this);
+		this.menu_list.add(this.menuItem_ExchangeManage);
+		this.menuItem_ExchangeManage.addActionListener(this);
+		this.menu_list.add(this.menuItem_ReturnManage);
+		this.menuItem_ReturnManage.addActionListener(this);
+		this.menu_list.add(this.menuItem_DestoryManage);
+		this.menuItem_DestoryManage.addActionListener(this);
 
 		this.menu_static.add(this.menuItem_monthStatic);
 		this.menuItem_monthStatic.addActionListener(this);
@@ -255,6 +255,11 @@ public class FrmMain extends JFrame implements ActionListener
 		else if (e.getSource() == menuItem_CunstomManage)
 		{
 			FrmCustomerManager dlg = new FrmCustomerManager(this, "客户管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_EnterManage)
+		{
+			FrmEnterManager dlg = new FrmEnterManager(this, "入库管理", true);
 			dlg.setVisible(true);
 		}
 	}

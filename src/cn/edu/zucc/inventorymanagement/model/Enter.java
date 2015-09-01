@@ -11,9 +11,9 @@ import java.util.Date;
 	private int houseId;
 	private int goodsId;
 	private int supplierId;
-	private String enterAmount;
+	private float enterAmount;
 	private Date enterTime;
-	private String enterPrice;
+	private float enterPrice;
 	private int batchId;
 	private String enterNote;
 	private int workerId;
@@ -42,10 +42,10 @@ import java.util.Date;
 	public void setSupplierId(int supplierId){
 		this.supplierId=supplierId;
 	}
-	public String getEnterAmount(){
+	public float getEnterAmount(){
 		return this.enterAmount;
 	}
-	public void setEnterAmount(String enterAmount){
+	public void setEnterAmount(float enterAmount){
 		this.enterAmount=enterAmount;
 	}
 	public Date getEnterTime(){
@@ -54,10 +54,10 @@ import java.util.Date;
 	public void setEnterTime(Date enterTime){
 		this.enterTime=enterTime;
 	}
-	public String getEnterPrice(){
+	public float getEnterPrice(){
 		return this.enterPrice;
 	}
-	public void setEnterPrice(String enterPrice){
+	public void setEnterPrice(float enterPrice){
 		this.enterPrice=enterPrice;
 	}
 	public int getBatchId(){

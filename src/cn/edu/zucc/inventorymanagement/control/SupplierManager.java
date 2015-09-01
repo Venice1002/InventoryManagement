@@ -132,11 +132,11 @@ public class SupplierManager
 		return result;
 	}
 
-	public List<Supplier> searchSupplierBySupplierName(String keyword)
+	public Supplier searchSupplierBySupplierName(String keyword)
 			throws BaseException
 	{
 		// 通过supplierName在数据库中查询供应商
-		List<Supplier> result = new ArrayList<Supplier>();
+		Supplier result = new Supplier();
 		Connection conn = null;
 		try
 		{
@@ -153,7 +153,6 @@ public class SupplierManager
 				supplier.setSupplierName(rs.getString(2));
 				supplier.setSupplierAddress(rs.getString(3));
 				supplier.setSupplierPhone(rs.getString(4));
-				result.add(supplier);
 			}
 		}
 		catch (SQLException e)

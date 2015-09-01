@@ -159,11 +159,11 @@ public class HouseManager
 		return result;
 	}
 
-	public List<House> searchHouseByHouseName(String keyword)
+	public House searchHouseByHouseName(String keyword)
 			throws BaseException
 	{
 		// 通过houseName在数据库中查询仓库
-		List<House> result = new ArrayList<House>();
+		House result = new House();
 		Connection conn = null;
 		try
 		{
@@ -188,7 +188,6 @@ public class HouseManager
 				house.setLastCheckDate(rs.getDate(10));
 				house.setHouseNote(rs.getString(11));
 				house.setHouseLevel(rs.getInt(12));
-				result.add(house);
 			}
 		}
 		catch (SQLException e)
