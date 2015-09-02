@@ -178,6 +178,7 @@ public class GoodsManager
 				goods.setManufacturer(rs.getString(8));
 				goods.setGoodsLevel(rs.getInt(9));
 				goods.setGoodsVolume(rs.getString(10));
+				result = goods;
 			}
 		}
 		catch (SQLException e)

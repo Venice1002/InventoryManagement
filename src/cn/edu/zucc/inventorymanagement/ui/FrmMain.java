@@ -24,8 +24,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import cn.edu.zucc.inventorymanagement.control.HouseManager;
+import cn.edu.zucc.inventorymanagement.control.StoreManager;
 import cn.edu.zucc.inventorymanagement.control.WorkerManager;
 import cn.edu.zucc.inventorymanagement.model.House;
+import cn.edu.zucc.inventorymanagement.model.Store;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 
 public class FrmMain extends JFrame implements ActionListener
@@ -44,8 +46,6 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenuItem menuItem_GoodsManage = new JMenuItem("物料管理");
 	private JMenuItem menuItem_SupplierManage = new JMenuItem("供应商管理");
 	private JMenuItem menuItem_CunstomManage = new JMenuItem("客户管理");
-	// private JMenuItem menuItem_ModifyGoods = new JMenuItem("修改物料");
-	// private JMenuItem menuItem_DeleteGoods = new JMenuItem("删除物料");
 	private JMenuItem menuItem_StoreCheck = new JMenuItem("库存盘查");
 	private JMenuItem menuItem_EnterManage = new JMenuItem("入库管理");
 	private JMenuItem menuItem_ExitManage = new JMenuItem("出库管理");
@@ -67,16 +67,14 @@ public class FrmMain extends JFrame implements ActionListener
 	DefaultTableModel tabHouseModel = new DefaultTableModel();
 	private JTable dataHouse = new JTable(tabHouseModel);
 
-	private Object tblItemTitle[] =
-	{ "编号", "摘要", "金额", "时间", "类别", "具体类型" };
-	private Object tblItemData[][];
-	DefaultTableModel tabItemModel = new DefaultTableModel();
-	private JTable dataTableItem = new JTable(tabItemModel);
+	private Object tblStore[] =
+	{ "编号", "仓库编号", "物料编号", "批次号", "存储数量", "入库单价", "单位" };
+	private Object tblStoreData[][];
+	DefaultTableModel tabStoreModel = new DefaultTableModel();
+	private JTable dataTableStore = new JTable(tabStoreModel);
 
 	List<House> houseList = null;
-
-	// List<IncomeItem> incomeItem = null;
-	// List<PaymentItem> paymentItem = null;
+	List<Store> storeList = null;
 
 	private void reloadHouseTable()
 	{
@@ -97,43 +95,37 @@ public class FrmMain extends JFrame implements ActionListener
 		this.dataHouse.repaint();
 	}
 
-	/*
-	 * private void reloadItemTabel() { int i =
-	 * this.dataProjectType.getSelectedRow(); if (i < 0) {
-	 * JOptionPane.showMessageDialog(null, "请选项目", "提示",
-	 * JOptionPane.ERROR_MESSAGE); return; } int projectId =
-	 * Integer.parseInt(this.tblProjectData[i][0].toString());
-	 * 
-	 * incomeItem = (new IncomeItemManager()).loadIncomeItem(projectId); int
-	 * incomeNum = 0; paymentItem = (new
-	 * PaymentItemManager()).loadPaymentItem(projectId); int paumentNum = 0;
-	 * 
-	 * tblItemData = new Object[incomeItem.size() + paymentItem.size()][6]; //
-	 * 加载收入条目 for (incomeNum = 0; incomeNum < incomeItem.size(); incomeNum++) {
-	 * tblItemData[incomeNum][0] = incomeItem.get(incomeNum).getIncomeId();
-	 * tblItemData[incomeNum][1] = incomeItem.get(incomeNum) .getIncomeNote();
-	 * tblItemData[incomeNum][2] = incomeItem.get(incomeNum) .getIncomeAmount();
-	 * tblItemData[incomeNum][3] = incomeItem.get(incomeNum)
-	 * .getIncomeCreateDate(); // 查找并显示具体类型 IncomeType result = new
-	 * IncomeType(); IncomeTypeManager tm = new IncomeTypeManager(); result =
-	 * tm.searchIncomeType(incomeItem.get(incomeNum) .getIncomeTypeId());
-	 * tblItemData[incomeNum][4] = "收入"; tblItemData[incomeNum][5] =
-	 * result.getIncomeTypeName(); } // 加载支出条目 for (paumentNum = incomeNum;
-	 * paumentNum < (paymentItem.size() + incomeNum); paumentNum++) {
-	 * tblItemData[paumentNum][0] = paymentItem .get(paumentNum -
-	 * incomeNum).getPaymentId(); tblItemData[paumentNum][1] = paymentItem
-	 * .get(paumentNum - incomeNum).getPaymentNote(); tblItemData[paumentNum][2]
-	 * = paymentItem .get(paumentNum - incomeNum).getPaymentAmount();
-	 * tblItemData[paumentNum][3] = paymentItem .get(paumentNum -
-	 * incomeNum).getPaymentCreateDate(); // 查找并显示具体类型 PaymentType result = new
-	 * PaymentType(); PaymentTypeManager tm = new PaymentTypeManager(); result =
-	 * tm.searchPaymentType(paymentItem.get( paumentNum -
-	 * incomeNum).getPaymentTypeId()); tblItemData[paumentNum][4] = "支出";
-	 * tblItemData[paumentNum][5] = result.getPaymentTypeName(); }
-	 * 
-	 * tabItemModel.setDataVector(tblItemData, tblItemTitle);
-	 * this.dataTableItem.validate(); this.dataTableItem.repaint(); }
-	 */
+	private void reloadStoreTabel()
+	{
+		int i = this.dataHouse.getSelectedRow();
+		if (i < 0)
+		{
+			JOptionPane.showMessageDialog(null, "请选仓库", "提示",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		int houseId = Integer.parseInt(this.tblHouseData[i][0].toString());
+
+		storeList = (new StoreManager()).loadStoreByHouseId(houseId);
+
+		tblStoreData = new Object[storeList.size()][7];
+		//加载收入条目
+		for (i = 0; i < storeList.size(); i++)
+		{
+			tblStoreData[i][0] = storeList.get(i).getStoreId();
+			tblStoreData[i][1] = storeList.get(i).getHouseId();
+			tblStoreData[i][2] = storeList.get(i).getGoodsId();
+			tblStoreData[i][3] = storeList.get(i).getBatchId();
+			tblStoreData[i][4] = storeList.get(i).getStoreAmount();
+			tblStoreData[i][5] = storeList.get(i).getStorePrice();
+			tblStoreData[i][6] = storeList.get(i).getUnit();
+		}
+
+		tabStoreModel.setDataVector(tblStoreData, tblStore);
+		this.dataTableStore.validate();
+		this.dataTableStore.repaint();
+	}
+
 	public FrmMain()
 	{
 
@@ -155,13 +147,6 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menuItem_SupplierManage.addActionListener(this);
 		this.menu_supAndCus.add(this.menuItem_CunstomManage);
 		this.menuItem_CunstomManage.addActionListener(this);
-		//
-		// this.menu_goods.add(this.menuItem_AddGoods);
-		// this.menuItem_AddGoods.addActionListener(this);
-		// this.menu_goods.add(this.menuItem_ModifyGoods);
-		// this.menuItem_ModifyGoods.addActionListener(this);
-		// this.menu_goods.add(this.menuItem_DeleteGoods);
-		// this.menuItem_DeleteGoods.addActionListener(this);
 
 		this.menu_store.add(this.menuItem_StoreCheck);
 		this.menuItem_StoreCheck.addActionListener(this);
@@ -207,13 +192,11 @@ public class FrmMain extends JFrame implements ActionListener
 				{
 					return;
 				}
-				int projectId = Integer
-						.parseInt(FrmMain.this.tblHouseData[i][0].toString());
-				// FrmMain.this.reloadItemTabel();
+				 FrmMain.this.reloadStoreTabel();
 			}
 
 		});
-		this.getContentPane().add(new JScrollPane(this.dataTableItem),
+		this.getContentPane().add(new JScrollPane(this.dataTableStore),
 				BorderLayout.CENTER);
 
 		this.reloadHouseTable();
@@ -260,6 +243,11 @@ public class FrmMain extends JFrame implements ActionListener
 		else if (e.getSource() == menuItem_EnterManage)
 		{
 			FrmEnterManager dlg = new FrmEnterManager(this, "入库管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_ExitManage)
+		{
+			FrmExitManager dlg = new FrmExitManager(this, "出库管理", true);
 			dlg.setVisible(true);
 		}
 	}

@@ -26,8 +26,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private Button btnAdd = new Button("入库");
-	//	private Button btnModify = new Button("修改入库单");
-	//	private Button btnDelete = new Button("删除入库单");
 	private JTextField edtKeyword = new JTextField(10);
 	private Button btnSearch = new Button("查询");
 	private Object tblEnterTitle[] =
@@ -66,8 +64,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-//		toolBar.add(btnModify);
-//		toolBar.add(btnDelete);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
 
@@ -87,8 +83,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-//		this.btnModify.addActionListener(this);
-//		this.btnDelete.addActionListener(this);
 		this.btnSearch.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
@@ -109,39 +103,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 			dlg.setVisible(true);
 			this.reloadTable();
 		}
-		/*else if (e.getSource() == this.btnModify)
-		{
-			int i = this.dataEnter.getSelectedRow();
-			if (i < 0)
-			{
-				JOptionPane.showMessageDialog(null, "请选择入库单", "提示",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			Enter enter = this.enterList.get(i);
-			FrmEnter_Modify dlg = new FrmEnter_Modify(this, "修改入库单", true,
-					enter);
-			dlg.setVisible(true);
-			this.reloadTable();
-		}
-		else if (e.getSource() == this.btnDelete)
-		{
-			int i = this.dataEnter.getSelectedRow();
-			if (i < 0)
-			{
-				JOptionPane.showMessageDialog(null, "请选择入库单", "提示",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			Enter enter = this.enterList.get(i);
-			if (JOptionPane.showConfirmDialog(this,
-					"确定删除" + enter.getEnterName() + "吗？", "确认",
-					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-			{
-				(new EnterManager()).deleteEnter(enter.getEnterId());
-				this.reloadTable();
-			}
-		}*/
 		else if (e.getSource() == this.btnSearch)
 		{
 			this.reloadTable();

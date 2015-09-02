@@ -188,6 +188,7 @@ public class HouseManager
 				house.setLastCheckDate(rs.getDate(10));
 				house.setHouseNote(rs.getString(11));
 				house.setHouseLevel(rs.getInt(12));
+				result = house;
 			}
 		}
 		catch (SQLException e)
@@ -306,5 +307,11 @@ public class HouseManager
 					e.printStackTrace();
 				}
 		}
+	}
+	
+	public static void main(String[] args) throws BaseException
+	{
+		HouseManager hm = new HouseManager();
+		System.out.println(hm.searchHouseByHouseName("°¡¹þ").getHouseId());
 	}
 }

@@ -132,11 +132,11 @@ public class CustomerManager
 		return result;
 	}
 
-	public List<Customer> searchCustomerByCustomerName(String keyword)
+	public Customer searchCustomerByCustomerName(String keyword)
 			throws BaseException
 	{
 		// 通过customerName在数据库中查询客户
-		List<Customer> result = new ArrayList<Customer>();
+		Customer result = new Customer();
 		Connection conn = null;
 		try
 		{
@@ -153,7 +153,7 @@ public class CustomerManager
 				customer.setCustomerName(rs.getString(2));
 				customer.setCustomerAddress(rs.getString(3));
 				customer.setCustomerPhone(rs.getString(4));
-				result.add(customer);
+				result = customer;
 			}
 		}
 		catch (SQLException e)

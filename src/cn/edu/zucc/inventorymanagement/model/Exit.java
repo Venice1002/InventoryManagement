@@ -12,9 +12,9 @@ import java.util.Date;
 	private int goodsId;
 	private int batchId;
 	private int customerId;
-	private String exitAmount;
+	private float exitAmount;
 	private Date exitTime;
-	private String exitPrice;
+	private float exitPrice;
 	private String exitNote;
 	private int workerId;
 
@@ -48,10 +48,10 @@ import java.util.Date;
 	public void setCustomerId(int customerId){
 		this.customerId=customerId;
 	}
-	public String getExitAmount(){
+	public float getExitAmount(){
 		return this.exitAmount;
 	}
-	public void setExitAmount(String exitAmount){
+	public void setExitAmount(float exitAmount){
 		this.exitAmount=exitAmount;
 	}
 	public Date getExitTime(){
@@ -60,10 +60,10 @@ import java.util.Date;
 	public void setExitTime(Date exitTime){
 		this.exitTime=exitTime;
 	}
-	public String getExitPrice(){
+	public float getExitPrice(){
 		return this.exitPrice;
 	}
-	public void setExitPrice(String exitPrice){
+	public void setExitPrice(float exitPrice){
 		this.exitPrice=exitPrice;
 	}
 	public String getExitNote(){

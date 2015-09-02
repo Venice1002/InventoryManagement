@@ -20,79 +20,90 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import cn.edu.zucc.inventorymanagement.control.EnterManager;
+import cn.edu.zucc.inventorymanagement.control.ExitManager;
 import cn.edu.zucc.inventorymanagement.control.GoodsManager;
 import cn.edu.zucc.inventorymanagement.control.HouseManager;
 import cn.edu.zucc.inventorymanagement.control.StoreManager;
-import cn.edu.zucc.inventorymanagement.control.SupplierManager;
+import cn.edu.zucc.inventorymanagement.control.CustomerManager;
 import cn.edu.zucc.inventorymanagement.control.WorkerManager;
-import cn.edu.zucc.inventorymanagement.model.Enter;
+import cn.edu.zucc.inventorymanagement.model.Exit;
 import cn.edu.zucc.inventorymanagement.model.Goods;
 import cn.edu.zucc.inventorymanagement.model.House;
 import cn.edu.zucc.inventorymanagement.model.Store;
-import cn.edu.zucc.inventorymanagement.model.Supplier;
+import cn.edu.zucc.inventorymanagement.model.Customer;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 import cn.edu.zucc.inventorymanagement.util.DbException;
 
-public class FrmEnter_Add extends JDialog implements ActionListener
+public class FrmExit_Add extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private Button btnOk = new Button("确定");
 	private Button btnCancel = new Button("取消");
 	private JLabel labelBatchId = new JLabel("批次号：");
-	private JLabel labelEnterAmount = new JLabel("入库数量：");
-	private JLabel labelEnterPrice = new JLabel("入库单价：");
-	private JLabel labelEnterTime = new JLabel("入库时间：");
+	private JLabel labelExitAmount = new JLabel("出库数量：");
+	private JLabel labelExitPrice = new JLabel("出库单价：");
+	private JLabel labelExitTime = new JLabel("出库时间：");
 	private JLabel labelHouse = new JLabel("仓库：");
 	private JLabel labelGoods = new JLabel("物料：");
 	private JLabel labelUnit = new JLabel("单位：");
-	private JLabel labelEnterNote = new JLabel("备注：");
+	private JLabel labelExitNote = new JLabel("备注：");
 	private JLabel labelWorker = new JLabel("出库人：");
-	private JLabel labelSupplier = new JLabel("供应商：");
+	private JLabel labelCustomer = new JLabel("客户：");
 
 	private JLabel labelNote = new JLabel("时间不填默认为当前时刻   格式如2015-01-01");
-	private JTextField edtEnterAmount = new JTextField(20);
-	private JTextField edtEnterTime = new JTextField(20);
+	private JTextField edtExitAmount = new JTextField(20);
+	private JTextField edtExitTime = new JTextField(20);
 	private JTextField edtBatchId = new JTextField(20);
-	private JTextField edtEnterPrice = new JTextField(20);
+	private JTextField edtExitPrice = new JTextField(20);
 	private JTextField edtUnit = new JTextField(20);
-	private JTextField edtEnterNote = new JTextField(20);
+	private JTextField edtExitNote = new JTextField(20);
 	private JTextField edtWorker = new JTextField(20);
 	private JComboBox cmbHouse;
 	private JComboBox cmbGoods;
-	private JComboBox cmbSupplier;
-	private List<House> houseList = null;
-	private List<Goods> goodsList = null;
-	private List<Supplier> supplierList = null;
+	private JComboBox cmbCustomer;
+	private House house = null;
+	private Goods goods = null;
+	private List<Customer> customerList = null;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrmEnter_Add(FrmEnterManager frmEnterManager, String s, boolean b)
+	public FrmExit_Add(FrmExitManager frmExitManager, String s, boolean b,
+			Store store)
 	{
-		super(frmEnterManager, s, b);
+		super(frmExitManager, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
+
 		labelBatchId.setBounds(30, 18, 70, 14);
 		workPane.add(labelBatchId);
+
 		edtBatchId.setBounds(112, 15, 120, 20);
+		edtBatchId.setText(String.valueOf(store.getBatchId()));
+		edtBatchId.setEnabled(false);
 		workPane.add(edtBatchId);
-		labelEnterAmount.setBounds(30, 80, 70, 14);
-		workPane.add(labelEnterAmount);
-		edtEnterAmount.setBounds(112, 77, 120, 20);
-		workPane.add(edtEnterAmount);
-		labelEnterTime.setBounds(30, 118, 70, 14);
-		workPane.add(labelEnterTime);
-		edtEnterTime.setBounds(112, 112, 120, 20);
-		//		edtEnterTime.setText(new java.sql.Timestamp(System
+
+		labelExitAmount.setBounds(30, 80, 70, 14);
+		workPane.add(labelExitAmount);
+
+		edtExitAmount.setBounds(112, 77, 120, 20);
+		workPane.add(edtExitAmount);
+
+		labelExitTime.setBounds(30, 118, 70, 14);
+		workPane.add(labelExitTime);
+
+		edtExitTime.setBounds(112, 112, 120, 20);
+		//		edtExitTime.setText(new java.sql.Timestamp(System
 		//						.currentTimeMillis()).toString());
-		workPane.add(edtEnterTime);
+		workPane.add(edtExitTime);
+
 		labelNote.setBounds(30, 143, 400, 14);
 		workPane.add(labelNote);
+
 		labelHouse.setBounds(30, 171, 55, 14);
 		workPane.add(labelHouse);
 
@@ -106,36 +117,39 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		workPane.add(cmbGoods);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
 
-		labelEnterPrice.setBounds(30, 49, 70, 14);
-		workPane.add(labelEnterPrice);
+		labelExitPrice.setBounds(30, 49, 70, 14);
+		workPane.add(labelExitPrice);
 
-		edtEnterPrice.setBounds(112, 46, 120, 20);
-		workPane.add(edtEnterPrice);
-		
+		edtExitPrice.setBounds(112, 46, 120, 20);
+		workPane.add(edtExitPrice);
+
 		labelUnit.setBounds(277, 18, 70, 14);
 		workPane.add(labelUnit);
-		
+
 		edtUnit.setBounds(341, 15, 120, 20);
+		edtUnit.setText(store.getUnit());
+		edtUnit.setEnabled(false);
 		workPane.add(edtUnit);
-		
-		labelEnterNote.setBounds(277, 49, 70, 14);
-		workPane.add(labelEnterNote);
-		
-		edtEnterNote.setBounds(341, 46, 120, 20);
-		workPane.add(edtEnterNote);
+
+		labelExitNote.setBounds(277, 49, 70, 14);
+		workPane.add(labelExitNote);
+
+		edtExitNote.setBounds(341, 46, 120, 20);
+		workPane.add(edtExitNote);
+
 		edtWorker.setBounds(341, 77, 120, 20);
 		edtWorker.setText(WorkerManager.currentWorker.getWorkerName());
 		workPane.add(edtWorker);
-		
+
 		labelWorker.setBounds(277, 80, 70, 14);
 		workPane.add(labelWorker);
-		
-		labelSupplier.setBounds(292, 171, 55, 14);
-		workPane.add(labelSupplier);
 
-		cmbSupplier = new JComboBox();
-		cmbSupplier.setBounds(341, 168, 80, 20);
-		workPane.add(cmbSupplier);
+		labelCustomer.setBounds(292, 171, 55, 14);
+		workPane.add(labelCustomer);
+
+		cmbCustomer = new JComboBox();
+		cmbCustomer.setBounds(341, 168, 80, 20);
+		workPane.add(cmbCustomer);
 		this.setSize(500, 300);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -148,30 +162,30 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		this.btnCancel.addActionListener(this);
 		this.cmbHouse.addActionListener(this);
 		this.cmbGoods.addActionListener(this);
-		this.cmbSupplier.addActionListener(this);
-		
+		this.cmbCustomer.addActionListener(this);
+
 		//初始化下拉菜单
-		houseList = (new HouseManager()).loadAllHouse();
-		cmbHouse.addItem("");
-		for (int i = 0; i < houseList.size(); i++)
+		try
 		{
-			cmbHouse.addItem(houseList.get(i).getHouseName());
+			house = (new HouseManager()).searchHouseByHouseId(store
+					.getHouseId());
+			cmbHouse.addItem(house.getHouseName());
+
+			goods = (new GoodsManager()).searchGoodsByGoodsId(store
+					.getGoodsId());
+			cmbGoods.addItem(goods.getGoodsName());
 		}
-		
-		cmbGoods.removeAllItems();
-		goodsList = (new GoodsManager()).loadAllGoods();
-		cmbGoods.addItem("");
-		for (int i = 0; i < goodsList.size(); i++)
+		catch (BaseException e)
 		{
-			cmbGoods.addItem(goodsList.get(i).getGoodsName());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		cmbSupplier.removeAllItems();
-		supplierList = (new SupplierManager()).loadAllSupplier();
-		cmbSupplier.addItem("");
-		for (int i = 0; i < supplierList.size(); i++)
+
+		customerList = (new CustomerManager()).loadAllCustomer();
+		cmbCustomer.addItem("");
+		for (int i = 0; i < customerList.size(); i++)
 		{
-			cmbSupplier.addItem(supplierList.get(i).getSupplierName());
+			cmbCustomer.addItem(customerList.get(i).getCustomerName());
 		}
 	}
 
@@ -185,14 +199,14 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		}
 		else if (e.getSource() == this.btnOk)
 		{
-			Enter enter = new Enter();
+			Exit exit = new Exit();
 			Store store = new Store();
 			House house = new House();
 			Goods goods = new Goods();
-			Supplier supplier = new Supplier();
+			Customer customer = new Customer();
 			HouseManager hm = new HouseManager();
 			GoodsManager gm = new GoodsManager();
-			SupplierManager sm = new SupplierManager();
+			CustomerManager cm = new CustomerManager();
 
 			try
 			{
@@ -200,7 +214,7 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 						.toString());
 				goods = gm.searchGoodsByGoodsName(cmbGoods.getSelectedItem()
 						.toString());
-				supplier = sm.searchSupplierBySupplierName(cmbSupplier
+				customer = cm.searchCustomerByCustomerName(cmbCustomer
 						.getSelectedItem().toString());
 			}
 			catch (BaseException e2)
@@ -209,13 +223,13 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 				e2.printStackTrace();
 			}
 
-			if (edtEnterTime.getText().equals(""))
-				enter.setEnterTime(new java.sql.Timestamp(System
+			if (edtExitTime.getText().equals(""))
+				exit.setExitTime(new java.sql.Timestamp(System
 						.currentTimeMillis()));
 			else
 			{
 				// 格式化输入时间
-				String date = this.edtEnterTime.getText().toString();
+				String date = this.edtExitTime.getText().toString();
 				DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 				Date date1 = null;
 				try
@@ -227,27 +241,31 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				enter.setEnterTime(new java.sql.Date(date1.getTime()));
+				exit.setExitTime(new java.sql.Date(date1.getTime()));
 			}
 
-			enter.setBatchId(Integer.valueOf(edtBatchId.getText()));
-			enter.setGoodsId(goods.getGoodsId());
-			enter.setHouseId(house.getHouseId());
-			enter.setSupplierId(supplier.getSupplierId());
-			enter.setEnterAmount(Float.valueOf(edtEnterAmount.getText()));
-			enter.setEnterPrice(Float.valueOf(edtEnterPrice.getText()));
-			enter.setWorkerId(WorkerManager.currentWorker.getWorkerId());
-			enter.setEnterNote(edtEnterNote.getText());
-			
-			store.setHouseId(house.getHouseId());
-			store.setGoodsId(goods.getGoodsId());
-			store.setBatchId(enter.getBatchId());
-			store.setStoreAmount(enter.getEnterAmount());
-			store.setStorePrice(enter.getEnterPrice());
-			store.setUnit(goods.getUnit());
+			exit.setBatchId(Integer.valueOf(edtBatchId.getText()));
+			exit.setGoodsId(goods.getGoodsId());
+			exit.setHouseId(house.getHouseId());
+			exit.setCustomerId(customer.getCustomerId());
+			exit.setExitAmount(Float.valueOf(edtExitAmount.getText()));
+			exit.setExitPrice(Float.valueOf(edtExitPrice.getText()));
+			exit.setWorkerId(WorkerManager.currentWorker.getWorkerId());
+			exit.setExitNote(edtExitNote.getText());
 
-			(new EnterManager()).createEnter(enter);
-			(new StoreManager()).createStore(store);
+			store = (new StoreManager()).searchStore(exit.getHouseId(),exit.getBatchId(),exit.getGoodsId());
+			store.setStoreAmount(store.getStoreAmount() - exit.getExitAmount());
+
+			(new ExitManager()).createExit(exit);
+			try
+			{
+				(new StoreManager()).modifyStore(store);
+			}
+			catch (BaseException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(null, "创建成功", "成功",
 					JOptionPane.INFORMATION_MESSAGE);
 			this.setVisible(false);
