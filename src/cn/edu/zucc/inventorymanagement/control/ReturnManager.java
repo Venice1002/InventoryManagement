@@ -6,30 +6,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.zucc.inventorymanagement.model.Exit;
+import cn.edu.zucc.inventorymanagement.model.Return;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
-public class ExitManager
+public class ReturnManager
 {
-	public void createExit(Exit exit)
+	public void createReturn(Return re)
 	{
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
-			String sql = "insert into [Exit](houseId,goodsId,customerId,exitAmount,exitTime,exitPrice,batchId,exitNote,workerId) values(?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into [Return](houseId,goodsId,customerId,returnAmount,returnTime,returnPrice,batchId,returnNote,workerId) values(?,?,?,?,?,?,?,?,?)";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, exit.getHouseId());
-			pst.setInt(2, exit.getGoodsId());
-			pst.setInt(3, exit.getCustomerId());
-			pst.setFloat(4, exit.getExitAmount());
-			pst.setDate(5, new java.sql.Date(exit.getExitTime().getTime()));
-			pst.setFloat(6, exit.getExitPrice());
-			pst.setInt(7, exit.getBatchId());
-			pst.setString(8, exit.getExitNote());
-			pst.setInt(9, exit.getWorkerId());
+			pst.setInt(1, re.getHouseId());
+			pst.setInt(2, re.getGoodsId());
+			pst.setInt(3, re.getCustomerId());
+			pst.setFloat(4, re.getReturnAmount());
+			pst.setDate(5, new java.sql.Date(re.getReturnTime().getTime()));
+			pst.setFloat(6, re.getReturnPrice());
+			pst.setInt(7, re.getBatchId());
+			pst.setString(8, re.getReturnNote());
+			pst.setInt(9, re.getWorkerId());
 			pst.execute();
 			pst.close();
 		}
@@ -52,30 +52,31 @@ public class ExitManager
 		}
 	}
 
-	public Exit searchExit(int exitId)
+	public Return searchReturn(int reId)
 	{
-		Exit exit = new Exit();
+		Return re = new Return();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from [Exit] where exitId = '" + exitId + "' ";
-			sql += " order by exitId";
+			sql = "select * from [Return] where returnId = '" + reId + "' ";
+			sql += " order by returnId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
-				exit.setExitId(rs.getInt(1));
-				exit.setHouseId(rs.getInt(2));
-				exit.setGoodsId(rs.getInt(3));
-				exit.setBatchId(rs.getInt(4));
-				exit.setCustomerId(rs.getInt(5));
-				exit.setExitAmount(rs.getFloat(6));
-				exit.setExitTime(rs.getDate(7));
-				exit.setExitPrice(rs.getFloat(8));
-				exit.setExitNote(rs.getString(9));
-				exit.setWorkerId(rs.getInt(10));
+
+				re.setReturnId(rs.getInt(1));
+				re.setHouseId(rs.getInt(2));
+				re.setGoodsId(rs.getInt(3));
+				re.setCustomerId(rs.getInt(4));
+				re.setReturnAmount(rs.getFloat(5));
+				re.setReturnTime(rs.getDate(6));
+				re.setReturnPrice(rs.getFloat(7));
+				re.setBatchId(rs.getInt(8));
+				re.setReturnNote(rs.getString(9));
+				re.setWorkerId(rs.getInt(10));
 			}
 		}
 		catch (SQLException e)
@@ -96,35 +97,35 @@ public class ExitManager
 					e.printStackTrace();
 				}
 		}
-		return exit;
+		return re;
 	}
 
-	public List<Exit> loadAllExit()
+	public List<Return> loadAllReturn()
 	{
-		List<Exit> result = new ArrayList<Exit>();
+		List<Return> result = new ArrayList<Return>();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from [Exit]  ";
-			sql += " order by exitId";
+			sql = "select * from [Return]  ";
+			sql += " order by returnId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
-				Exit exit = new Exit();
-				exit.setExitId(rs.getInt(1));
-				exit.setHouseId(rs.getInt(2));
-				exit.setGoodsId(rs.getInt(3));
-				exit.setBatchId(rs.getInt(4));
-				exit.setCustomerId(rs.getInt(5));
-				exit.setExitAmount(rs.getFloat(6));
-				exit.setExitTime(rs.getDate(7));
-				exit.setExitPrice(rs.getFloat(8));
-				exit.setExitNote(rs.getString(9));
-				exit.setWorkerId(rs.getInt(10));
-				result.add(exit);
+				Return re = new Return();
+				re.setReturnId(rs.getInt(1));
+				re.setHouseId(rs.getInt(2));
+				re.setGoodsId(rs.getInt(3));
+				re.setCustomerId(rs.getInt(4));
+				re.setReturnAmount(rs.getFloat(5));
+				re.setReturnTime(rs.getDate(6));
+				re.setReturnPrice(rs.getFloat(7));
+				re.setBatchId(rs.getInt(8));
+				re.setReturnNote(rs.getString(9));
+				re.setWorkerId(rs.getInt(10));
+				result.add(re);
 			}
 		}
 		catch (SQLException e)
@@ -147,31 +148,31 @@ public class ExitManager
 		return result;
 	}
 
-	/*public List<Exit> loadExit(String keyword)
+	/*public List<Return> loadReturn(String keyword)
 	{
 		// 通过keyword加载所有收入条目
-		List<Exit> result = new ArrayList<Exit>();
+		List<Return> result = new ArrayList<Return>();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from Exit where incomeNote like '%" + keyword
+			sql = "select * from Return where incomeNote like '%" + keyword
 					+ "%' ";
 			sql += " and incomeDeleteDate is null ";
-			sql += " order by exitId";
+			sql += " order by reId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
-				Exit exit = new Exit();
-				exit.setIncomeCreateDate(rs.getDate(1));
-				exit.setIncomeAmount(rs.getFloat(2));
-				exit.setIncomeId(rs.getInt(3));
-				exit.setIncomeTypeId(rs.getInt(4));
-				exit.setProjectId(rs.getInt(5));
-				exit.setIncomeNote(rs.getString(6));
-				result.add(exit);
+				Return re = new Return();
+				re.setIncomeCreateDate(rs.getDate(1));
+				re.setIncomeAmount(rs.getFloat(2));
+				re.setIncomeId(rs.getInt(3));
+				re.setIncomeTypeId(rs.getInt(4));
+				re.setProjectId(rs.getInt(5));
+				re.setIncomeNote(rs.getString(6));
+				result.add(re);
 			}
 		}
 		catch (SQLException e)
@@ -194,31 +195,31 @@ public class ExitManager
 		return result;
 	}
 
-	public List<Exit> loadExitByTime(String lastTime, String nextTime)
+	public List<Return> loadReturnByTime(String lastTime, String nextTime)
 	{
 		// 通过时间段加载所有收入条目
-		List<Exit> result = new ArrayList<Exit>();
+		List<Return> result = new ArrayList<Return>();
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select * from Exit where incomeCreateDate between '"
+			sql = "select * from Return where incomeCreateDate between '"
 					+ lastTime + "' and '" + nextTime + "' ";
 			sql += " and incomeDeleteDate is null ";
-			sql += " order by exitId";
+			sql += " order by reId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
-				Exit exit = new Exit();
-				exit.setIncomeCreateDate(rs.getDate(1));
-				exit.setIncomeAmount(rs.getFloat(2));
-				exit.setIncomeId(rs.getInt(3));
-				exit.setIncomeTypeId(rs.getInt(4));
-				exit.setProjectId(rs.getInt(5));
-				exit.setIncomeNote(rs.getString(6));
-				result.add(exit);
+				Return re = new Return();
+				re.setIncomeCreateDate(rs.getDate(1));
+				re.setIncomeAmount(rs.getFloat(2));
+				re.setIncomeId(rs.getInt(3));
+				re.setIncomeTypeId(rs.getInt(4));
+				re.setProjectId(rs.getInt(5));
+				re.setIncomeNote(rs.getString(6));
+				result.add(re);
 			}
 		}
 		catch (SQLException e)
@@ -241,15 +242,15 @@ public class ExitManager
 		return result;
 	}
 
-	public void deleteExit(int exitId)
+	public void deleteReturn(int reId)
 	{
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
-			String sql = "select * from Exit where exitId=?";
+			String sql = "select * from Return where reId=?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, exitId);
+			pst.setInt(1, reId);
 			java.sql.ResultSet rs = pst.executeQuery();
 			if (!rs.next())
 				throw new BusinessException("条目不存在");
@@ -257,11 +258,11 @@ public class ExitManager
 				throw new BusinessException("条目已经注销");
 			rs.close();
 			pst.close();
-			sql = "update Exit set incomeDeleteDate=? where exitId=?";
+			sql = "update Return set incomeDeleteDate=? where reId=?";
 			pst = conn.prepareStatement(sql);
 			pst.setTimestamp(1,
 					new java.sql.Timestamp(System.currentTimeMillis()));
-			pst.setInt(2, exitId);
+			pst.setInt(2, reId);
 			pst.execute();
 			pst.close();
 		}
@@ -290,29 +291,29 @@ public class ExitManager
 		}
 	}*/
 
-	/*public void modifyExit(Exit exit)
+	/*public void modifyReturn(Return re)
 	{
 		//修改条目
 		Connection conn = null;
 		try
 		{
 			conn = DBUtil.getConnection();
-			String sql = "select * from Exit where exitId=?";
+			String sql = "select * from Return where reId=?";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, exit.getExitId());
+			pst.setInt(1, re.getReturnId());
 			java.sql.ResultSet rs = pst.executeQuery();
 			if (!rs.next())
 				throw new BusinessException("不存在");
 			rs.close();
 			pst.close();
-			sql = "update Exit set incomeNote=?, incomeAmount=?, incomeCreateDate=?, incomeTypeId=? where exitId=?";
+			sql = "update Return set incomeNote=?, incomeAmount=?, incomeCreateDate=?, incomeTypeId=? where reId=?";
 			pst = conn.prepareStatement(sql);
-			pst.setString(1, exit.getIncomeNote());
-			pst.setFloat(2, exit.getIncomeAmount());
-			pst.setDate(3, new java.sql.Date(exit.getIncomeCreateDate()
+			pst.setString(1, re.getIncomeNote());
+			pst.setFloat(2, re.getIncomeAmount());
+			pst.setDate(3, new java.sql.Date(re.getIncomeCreateDate()
 					.getTime()));
-			pst.setInt(4, exit.getIncomeTypeId());
-			pst.setInt(5, exit.getIncomeId());
+			pst.setInt(4, re.getIncomeTypeId());
+			pst.setInt(5, re.getIncomeId());
 			pst.execute();
 			pst.close();
 		}
@@ -343,7 +344,7 @@ public class ExitManager
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select count(*) from Exit where projectId = '" + projectId
+			sql = "select count(*) from Return where projectId = '" + projectId
 					+ "' ";
 			sql += " and incomeDeleteDate is null ";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -382,7 +383,7 @@ public class ExitManager
 		{
 			conn = DBUtil.getConnection();
 			String sql;
-			sql = "select sum(incomeAmount) from Exit where projectId = '"
+			sql = "select sum(incomeAmount) from Return where projectId = '"
 					+ projectId + "' ";
 			sql += " and incomeDeleteDate is null ";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);

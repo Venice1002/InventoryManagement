@@ -30,26 +30,27 @@ import cn.edu.zucc.inventorymanagement.control.WorkerManager;
 import cn.edu.zucc.inventorymanagement.model.Exit;
 import cn.edu.zucc.inventorymanagement.model.Goods;
 import cn.edu.zucc.inventorymanagement.model.House;
+import cn.edu.zucc.inventorymanagement.model.Return;
 import cn.edu.zucc.inventorymanagement.model.Store;
 import cn.edu.zucc.inventorymanagement.model.Customer;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 import cn.edu.zucc.inventorymanagement.util.DbException;
 
-public class FrmExit_Add extends JDialog implements ActionListener
+public class FrmReturn_Add extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private JPanel workPane = new JPanel();
 	private Button btnOk = new Button("确定");
 	private Button btnCancel = new Button("取消");
 	private JLabel labelBatchId = new JLabel("批次号：");
-	private JLabel labelExitAmount = new JLabel("出库数量：");
-	private JLabel labelExitPrice = new JLabel("出库单价：");
-	private JLabel labelExitTime = new JLabel("出库时间：");
+	private JLabel labelExitAmount = new JLabel("退库数量：");
+	private JLabel labelExitPrice = new JLabel("退库单价：");
+	private JLabel labelExitTime = new JLabel("退库时间：");
 	private JLabel labelHouse = new JLabel("仓库：");
 	private JLabel labelGoods = new JLabel("物料：");
 	private JLabel labelUnit = new JLabel("单位：");
 	private JLabel labelExitNote = new JLabel("备注：");
-	private JLabel labelWorker = new JLabel("出库人：");
+	private JLabel labelWorker = new JLabel("退库人：");
 	private JLabel labelCustomer = new JLabel("客户：");
 
 	private JLabel labelNote = new JLabel("时间不填默认为当前时刻   格式如2015-01-01");
@@ -65,15 +66,15 @@ public class FrmExit_Add extends JDialog implements ActionListener
 	private JComboBox cmbCustomer;
 	private House house = null;
 	private Goods goods = null;
-	private List<Customer> customerList = null;
+	private Customer customer = null;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrmExit_Add(FrmExitManager frmExitManager, String s, boolean b,
-			Store store)
+	public FrmReturn_Add(FrmReturnManager frmReturnManager, String s, boolean b,
+			Exit exit)
 	{
-		super(frmExitManager, s, b);
+		super(frmReturnManager, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
@@ -84,7 +85,7 @@ public class FrmExit_Add extends JDialog implements ActionListener
 		workPane.add(labelBatchId);
 
 		edtBatchId.setBounds(112, 15, 120, 20);
-		edtBatchId.setText(String.valueOf(store.getBatchId()));
+		edtBatchId.setText(String.valueOf(exit.getBatchId()));
 		edtBatchId.setEnabled(false);
 		workPane.add(edtBatchId);
 
@@ -122,15 +123,17 @@ public class FrmExit_Add extends JDialog implements ActionListener
 		workPane.add(labelExitPrice);
 
 		edtExitPrice.setBounds(112, 46, 120, 20);
+		edtExitPrice.setText(String.valueOf(exit.getExitPrice()));
+		edtExitPrice.setEnabled(false);
 		workPane.add(edtExitPrice);
 
 		labelUnit.setBounds(277, 18, 70, 14);
 		workPane.add(labelUnit);
 
-		edtUnit.setBounds(341, 15, 120, 20);
-		edtUnit.setText(store.getUnit());
-		edtUnit.setEnabled(false);
-		workPane.add(edtUnit);
+		/*		edtUnit.setBounds(341, 15, 120, 20);
+				edtUnit.setText(exit.getUnit());
+				edtUnit.setEnabled(false);
+				workPane.add(edtUnit);*/
 
 		labelExitNote.setBounds(277, 49, 70, 14);
 		workPane.add(labelExitNote);
@@ -168,13 +171,17 @@ public class FrmExit_Add extends JDialog implements ActionListener
 		//初始化下拉菜单
 		try
 		{
-			house = (new HouseManager()).searchHouseByHouseId(store
-					.getHouseId());
+			house = (new HouseManager())
+					.searchHouseByHouseId(exit.getHouseId());
 			cmbHouse.addItem(house.getHouseName());
 
-			goods = (new GoodsManager()).searchGoodsByGoodsId(store
-					.getGoodsId());
+			goods = (new GoodsManager())
+					.searchGoodsByGoodsId(exit.getGoodsId());
 			cmbGoods.addItem(goods.getGoodsName());
+
+			customer = (new CustomerManager()).searchCustomerByCustomerId(exit
+					.getCustomerId());
+			cmbCustomer.addItem(customer.getCustomerName());
 		}
 		catch (BaseException e)
 		{
@@ -182,12 +189,6 @@ public class FrmExit_Add extends JDialog implements ActionListener
 			e.printStackTrace();
 		}
 
-		customerList = (new CustomerManager()).loadAllCustomer();
-		cmbCustomer.addItem("");
-		for (int i = 0; i < customerList.size(); i++)
-		{
-			cmbCustomer.addItem(customerList.get(i).getCustomerName());
-		}
 	}
 
 	@Override
@@ -200,8 +201,8 @@ public class FrmExit_Add extends JDialog implements ActionListener
 		}
 		else if (e.getSource() == this.btnOk)
 		{
-			Exit exit = new Exit();
 			Store store = new Store();
+			Return re = new Return();
 			House house = new House();
 			Goods goods = new Goods();
 			Customer customer = new Customer();
@@ -225,7 +226,7 @@ public class FrmExit_Add extends JDialog implements ActionListener
 			}
 
 			if (edtExitTime.getText().equals(""))
-				exit.setExitTime(new java.sql.Timestamp(System
+				re.setReturnTime(new java.sql.Timestamp(System
 						.currentTimeMillis()));
 			else
 			{
@@ -242,22 +243,23 @@ public class FrmExit_Add extends JDialog implements ActionListener
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				exit.setExitTime(new java.sql.Date(date1.getTime()));
+				re.setReturnTime(new java.sql.Date(date1.getTime()));
 			}
 
-			exit.setBatchId(Integer.valueOf(edtBatchId.getText()));
-			exit.setGoodsId(goods.getGoodsId());
-			exit.setHouseId(house.getHouseId());
-			exit.setCustomerId(customer.getCustomerId());
-			exit.setExitAmount(Float.valueOf(edtExitAmount.getText()));
-			exit.setExitPrice(Float.valueOf(edtExitPrice.getText()));
-			exit.setWorkerId(WorkerManager.currentWorker.getWorkerId());
-			exit.setExitNote(edtExitNote.getText());
+			re.setBatchId(Integer.valueOf(edtBatchId.getText()));
+			re.setGoodsId(goods.getGoodsId());
+			re.setHouseId(house.getHouseId());
+			re.setCustomerId(customer.getCustomerId());
+			re.setReturnAmount(Float.valueOf(edtExitAmount.getText()));
+			re.setReturnPrice(Float.valueOf(edtExitPrice.getText()));
+			re.setWorkerId(WorkerManager.currentWorker.getWorkerId());
+			re.setReturnNote(edtExitNote.getText());
 
-			store = (new StoreManager()).searchStore(exit.getHouseId(),exit.getBatchId(),exit.getGoodsId());
-			store.setStoreAmount(store.getStoreAmount() - exit.getExitAmount());
+			store = (new StoreManager()).searchStore(re.getHouseId(),
+					re.getBatchId(), re.getGoodsId());
+			store.setStoreAmount(store.getStoreAmount() + re.getReturnAmount());
 
-			(new ExitManager()).createExit(exit);
+			(new ReturnManager()).createReturn(re);
 			try
 			{
 				(new StoreManager()).modifyStore(store);

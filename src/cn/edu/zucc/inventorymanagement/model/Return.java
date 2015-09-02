@@ -12,7 +12,8 @@ import java.util.Date;
 	private int houseId;
 	private int goodsId;
 	private int batchId;
-	private String returnAmount;
+	private float returnAmount;
+	private float returnPrice;
 	private Date returnTime;
 	private String returnNote;
 	private int workerId;
@@ -47,11 +48,17 @@ import java.util.Date;
 	public void setBatchId(int batchId){
 		this.batchId=batchId;
 	}
-	public String getReturnAmount(){
+	public float getReturnAmount(){
 		return this.returnAmount;
 	}
-	public void setReturnAmount(String returnAmount){
+	public void setReturnAmount(float returnAmount){
 		this.returnAmount=returnAmount;
+	}
+	public float getReturnPrice(){
+		return this.returnPrice;
+	}
+	public void setReturnPrice(float returnPrice){
+		this.returnPrice=returnPrice;
 	}
 	public Date getReturnTime(){
 		return this.returnTime;

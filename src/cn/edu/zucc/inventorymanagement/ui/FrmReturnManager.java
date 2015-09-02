@@ -19,50 +19,56 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import cn.edu.zucc.inventorymanagement.control.ExitManager;
 import cn.edu.zucc.inventorymanagement.control.ReturnManager;
 import cn.edu.zucc.inventorymanagement.control.StoreManager;
 import cn.edu.zucc.inventorymanagement.model.Exit;
+import cn.edu.zucc.inventorymanagement.model.Return;
 import cn.edu.zucc.inventorymanagement.model.House;
 import cn.edu.zucc.inventorymanagement.model.Store;
 
-public class FrmExitManager extends JDialog implements ActionListener
+public class FrmReturnManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
-	private Button btnAdd = new Button("出库");
+	private Button btnAdd = new Button("退库");
 	private JTextField edtKeyword = new JTextField(10);
 	private Button btnSearch = new Button("查询");
 
-	private Object tblStore[] =
-	{ "编号", "仓库编号", "物料编号", "批次号", "存储数量", "入库单价", "单位" };
-	private Object tblStoreData[][];
-	DefaultTableModel tabStoreModel = new DefaultTableModel();
-	private JTable dataTableStore = new JTable(tabStoreModel);
+	private Object tblExitTitle[] =
+		{ "出库单编号", "仓库编号", "物料编号", "批次号", "出库单编号", "出库单价", "出库数量", "出库时间", "出库人",
+				"备注" };
+		private Object tblExitData[][];
+		DefaultTableModel tabExitModel = new DefaultTableModel();
+		private JTable dataExit = new JTable(tabExitModel);
 
-	List<Store> storeList = null;
+	List<Exit> exitList = null;
 
-	private void reloadStoreTabel()
+	private void reloadExitTabel()
 	{
-		storeList = (new StoreManager()).loadAllStore();
+		exitList = (new ExitManager()).loadAllExit();
 
-		tblStoreData = new Object[storeList.size()][7];
+		tblExitData = new Object[exitList.size()][10];
 		//加载库存清单
-		for (int i = 0; i < storeList.size(); i++)
+		for (int i = 0; i < exitList.size(); i++)
 		{
-			tblStoreData[i][0] = storeList.get(i).getStoreId();
-			tblStoreData[i][1] = storeList.get(i).getHouseId();
-			tblStoreData[i][2] = storeList.get(i).getGoodsId();
-			tblStoreData[i][3] = storeList.get(i).getBatchId();
-			tblStoreData[i][4] = storeList.get(i).getStoreAmount();
-			tblStoreData[i][5] = storeList.get(i).getStorePrice();
-			tblStoreData[i][6] = storeList.get(i).getUnit();
+			tblExitData[i][0] = exitList.get(i).getExitId();
+			tblExitData[i][1] = exitList.get(i).getHouseId();
+			tblExitData[i][2] = exitList.get(i).getGoodsId();
+			tblExitData[i][3] = exitList.get(i).getBatchId();
+			tblExitData[i][4] = exitList.get(i).getCustomerId();
+			tblExitData[i][5] = exitList.get(i).getExitPrice();
+			tblExitData[i][6] = exitList.get(i).getExitAmount();
+			tblExitData[i][7] = exitList.get(i).getExitTime();
+			tblExitData[i][8] = exitList.get(i).getWorkerId();
+			tblExitData[i][9] = exitList.get(i).getExitNote();
 		}
 
-		tabStoreModel.setDataVector(tblStoreData, tblStore);
-		this.dataTableStore.validate();
-		this.dataTableStore.repaint();
+		tabExitModel.setDataVector(tblExitData, tblExitTitle);
+		this.dataExit.validate();
+		this.dataExit.repaint();
 	}
 
-	public FrmExitManager(Frame f, String s, boolean b)
+	public FrmReturnManager(Frame f, String s, boolean b)
 	{
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -72,8 +78,8 @@ public class FrmExitManager extends JDialog implements ActionListener
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
-		this.reloadStoreTabel();
-		this.getContentPane().add(new JScrollPane(this.dataTableStore),
+		this.reloadExitTabel();
+		this.getContentPane().add(new JScrollPane(this.dataExit),
 				BorderLayout.CENTER);
 
 		// 屏幕居中显示
@@ -102,23 +108,23 @@ public class FrmExitManager extends JDialog implements ActionListener
 		// TODO Auto-generated method stub
 		if (e.getSource() == this.btnAdd)
 		{
-			int i = this.dataTableStore.getSelectedRow();
+			int i = this.dataExit.getSelectedRow();
 			if (i < 0)
 			{
-				JOptionPane.showMessageDialog(null, "请选库存条目", "提示",
+				JOptionPane.showMessageDialog(null, "请选出库记录", "提示",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			int storeId = Integer.parseInt(this.tblStoreData[i][0]
+			int exitId = Integer.parseInt(this.tblExitData[i][0]
 					.toString());
-			Store store = (new StoreManager()).searchStore(storeId);
-			FrmExit_Add dlg = new FrmExit_Add(this, "出库", true, store);
+			Exit exit = (new ExitManager()).searchExit(exitId);
+			FrmReturn_Add dlg = new FrmReturn_Add(this, "退库", true, exit);
 			dlg.setVisible(true);
-			this.reloadStoreTabel();
+			this.reloadExitTabel();
 		}
 		else if (e.getSource() == this.btnSearch)
 		{
-			this.reloadStoreTabel();
+			this.reloadExitTabel();
 		}
 
 	}
