@@ -110,7 +110,7 @@ public class StoreManager
 			pst.setInt(2, batchId);
 			pst.setInt(3, goodsId);
 			java.sql.ResultSet rs = pst.executeQuery();
-			while (rs.next())
+			if (rs.next())
 			{
 				store.setStoreId(rs.getInt(1));
 				store.setHouseId(rs.getInt(2));
@@ -119,6 +119,11 @@ public class StoreManager
 				store.setBatchId(rs.getInt(5));
 				store.setUnit(rs.getString(6));
 				store.setStorePrice(rs.getFloat(7));
+			}
+			else
+			{
+				//»ÙŒ¥’“µΩ ∑µªÿnull
+				return null;
 			}
 		}
 		catch (SQLException e)

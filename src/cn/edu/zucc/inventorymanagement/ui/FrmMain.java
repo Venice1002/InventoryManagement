@@ -247,12 +247,22 @@ public class FrmMain extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == menuItem_ExitManage)
 		{
-			FrmExitManager dlg = new FrmExitManager(this, "出库管理", true);
+			FrmDestoryManager dlg = new FrmDestoryManager(this, "出库管理", true);
 			dlg.setVisible(true);
 		}
 		else if (e.getSource() == menuItem_ReturnManage)
 		{
 			FrmReturnManager dlg = new FrmReturnManager(this, "退库管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_DestoryManage)
+		{
+			FrmDestoryManager dlg = new FrmDestoryManager(this, "报废管理", true);
+			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_ExchangeManage)
+		{
+			FrmExchangeManager dlg = new FrmExchangeManager(this, "移库管理", true);
 			dlg.setVisible(true);
 		}
 	}

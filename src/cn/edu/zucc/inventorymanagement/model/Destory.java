@@ -12,7 +12,7 @@ import java.util.Date;
 	private int goodsId;
 	private int batchId;
 	private Date destoryTime;
-	private String destoryAmount;
+	private float destoryAmount;
 	private String destoryNote;
 	private int workerId;
 
@@ -46,10 +46,10 @@ import java.util.Date;
 	public void setDestoryTime(Date destoryTime){
 		this.destoryTime=destoryTime;
 	}
-	public String getDestoryAmount(){
+	public float getDestoryAmount(){
 		return this.destoryAmount;
 	}
-	public void setDestoryAmount(String destoryAmount){
+	public void setDestoryAmount(float destoryAmount){
 		this.destoryAmount=destoryAmount;
 	}
 	public String getDestoryNote(){
