@@ -18,15 +18,15 @@ import cn.edu.zucc.inventorymanagement.model.Destory;
 public class FrmDestory_Check extends JDialog
 {
 	private Object tblDestoryTitle[] =
-	{ "报废单编号", "仓库编号", "物料编号", "批次号", "报废时间", "报废数量", "报废人",  "备注" };
+	{ "报废单编号", "仓库编号", "物料编号", "批次号", "报废时间", "报废数量", "报废操作人",  "备注" };
 	private Object tblDestoryData[][];
 	List<Destory> destoryList = null;
 	DefaultTableModel tabDestoryModel = new DefaultTableModel();
 	private JTable dataDestory = new JTable(tabDestoryModel);
 
-	private void reloadTable()
+	private void reloadDestoryTable()
 	{
-		// 重新加载入库单信息
+		// 重新加载报废单信息
 		destoryList = (new DestoryManager()).loadAllDestory();
 		tblDestoryData = new Object[destoryList.size()][8];
 		for (int i = 0; i < destoryList.size(); i++)
@@ -50,7 +50,7 @@ public class FrmDestory_Check extends JDialog
 		super(frmDestoryManager, s, b);
 
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadDestoryTable();
 		this.getContentPane().add(new JScrollPane(this.dataDestory),
 				BorderLayout.CENTER);
 

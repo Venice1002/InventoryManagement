@@ -1,20 +1,23 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Exit;
-import cn.edu.zucc.inventorymanagement.util.BaseException;
-import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
+
+/*
+ * 注：Exit表在数据库内是系统表
+ * 所以sql语句中改为[Exit]
+ * */
 
 public class ExitManager
 {
 	public void createExit(Exit exit)
 	{
+		//创建出库单
 		Connection conn = null;
 		try
 		{
@@ -54,6 +57,7 @@ public class ExitManager
 
 	public Exit searchExit(int exitId)
 	{
+		//通过exitId查询出库单
 		Exit exit = new Exit();
 		Connection conn = null;
 		try
@@ -101,6 +105,7 @@ public class ExitManager
 
 	public List<Exit> loadAllExit()
 	{
+		//加载所有出库表
 		List<Exit> result = new ArrayList<Exit>();
 		Connection conn = null;
 		try
@@ -147,269 +152,4 @@ public class ExitManager
 		return result;
 	}
 
-	/*public List<Exit> loadExit(String keyword)
-	{
-		// 通过keyword加载所有收入条目
-		List<Exit> result = new ArrayList<Exit>();
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql;
-			sql = "select * from Exit where incomeNote like '%" + keyword
-					+ "%' ";
-			sql += " and incomeDeleteDate is null ";
-			sql += " order by exitId";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			java.sql.ResultSet rs = pst.executeQuery();
-			while (rs.next())
-			{
-				Exit exit = new Exit();
-				exit.setIncomeCreateDate(rs.getDate(1));
-				exit.setIncomeAmount(rs.getFloat(2));
-				exit.setIncomeId(rs.getInt(3));
-				exit.setIncomeTypeId(rs.getInt(4));
-				exit.setProjectId(rs.getInt(5));
-				exit.setIncomeNote(rs.getString(6));
-				result.add(exit);
-			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return result;
-	}
-
-	public List<Exit> loadExitByTime(String lastTime, String nextTime)
-	{
-		// 通过时间段加载所有收入条目
-		List<Exit> result = new ArrayList<Exit>();
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql;
-			sql = "select * from Exit where incomeCreateDate between '"
-					+ lastTime + "' and '" + nextTime + "' ";
-			sql += " and incomeDeleteDate is null ";
-			sql += " order by exitId";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			java.sql.ResultSet rs = pst.executeQuery();
-			while (rs.next())
-			{
-				Exit exit = new Exit();
-				exit.setIncomeCreateDate(rs.getDate(1));
-				exit.setIncomeAmount(rs.getFloat(2));
-				exit.setIncomeId(rs.getInt(3));
-				exit.setIncomeTypeId(rs.getInt(4));
-				exit.setProjectId(rs.getInt(5));
-				exit.setIncomeNote(rs.getString(6));
-				result.add(exit);
-			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return result;
-	}
-
-	public void deleteExit(int exitId)
-	{
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql = "select * from Exit where exitId=?";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, exitId);
-			java.sql.ResultSet rs = pst.executeQuery();
-			if (!rs.next())
-				throw new BusinessException("条目不存在");
-			if (rs.getDate("incomeDeleteDate") != null)
-				throw new BusinessException("条目已经注销");
-			rs.close();
-			pst.close();
-			sql = "update Exit set incomeDeleteDate=? where exitId=?";
-			pst = conn.prepareStatement(sql);
-			pst.setTimestamp(1,
-					new java.sql.Timestamp(System.currentTimeMillis()));
-			pst.setInt(2, exitId);
-			pst.execute();
-			pst.close();
-		}
-		catch (BusinessException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-	}*/
-
-	/*public void modifyExit(Exit exit)
-	{
-		//修改条目
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql = "select * from Exit where exitId=?";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, exit.getExitId());
-			java.sql.ResultSet rs = pst.executeQuery();
-			if (!rs.next())
-				throw new BusinessException("不存在");
-			rs.close();
-			pst.close();
-			sql = "update Exit set incomeNote=?, incomeAmount=?, incomeCreateDate=?, incomeTypeId=? where exitId=?";
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, exit.getIncomeNote());
-			pst.setFloat(2, exit.getIncomeAmount());
-			pst.setDate(3, new java.sql.Date(exit.getIncomeCreateDate()
-					.getTime()));
-			pst.setInt(4, exit.getIncomeTypeId());
-			pst.setInt(5, exit.getIncomeId());
-			pst.execute();
-			pst.close();
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-	}*/
-
-	/*public int countIncomeNum(int projectId)
-	{
-		int num = 0;
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql;
-			sql = "select count(*) from Exit where projectId = '" + projectId
-					+ "' ";
-			sql += " and incomeDeleteDate is null ";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			java.sql.ResultSet rs = pst.executeQuery();
-			if (rs.next())
-			{
-				num = rs.getInt(1);
-			}
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return num;
-	}*/
-
-	/*public float countIncomeAmount(int projectId)
-	{
-		float amount = 0;
-		Connection conn = null;
-		try
-		{
-			conn = DBUtil.getConnection();
-			String sql;
-			sql = "select sum(incomeAmount) from Exit where projectId = '"
-					+ projectId + "' ";
-			sql += " and incomeDeleteDate is null ";
-			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-			java.sql.ResultSet rs = pst.executeQuery();
-			if (rs.next())
-			{
-				amount = rs.getInt(1);
-			}
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally
-		{
-			if (conn != null)
-				try
-				{
-					conn.close();
-				}
-				catch (SQLException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return amount;
-	}*/
 }

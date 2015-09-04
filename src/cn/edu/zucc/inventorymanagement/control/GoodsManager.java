@@ -56,6 +56,7 @@ public class GoodsManager
 
 	public List<Goods> loadAllGoods()
 	{
+		//加载所有物料
 		List<Goods> result = new ArrayList<Goods>();
 		Connection conn = null;
 		try
@@ -254,6 +255,7 @@ public class GoodsManager
 
 	public void deleteGoods(int goodsId)
 	{
+		//删除物料（硬删除）
 		Connection conn = null;
 		try
 		{

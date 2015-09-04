@@ -63,7 +63,6 @@ public class FrmCustomerManager extends JDialog implements ActionListener
 		toolBar.add(btnDelete);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
-
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
 		this.reloadTable();

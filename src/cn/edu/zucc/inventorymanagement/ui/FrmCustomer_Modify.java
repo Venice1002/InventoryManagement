@@ -31,44 +31,45 @@ public class FrmCustomer_Modify extends JDialog implements ActionListener
 	private JTextField edtCustomerName = new JTextField(20);
 	private JTextField edtCustomerAddress = new JTextField(20);
 	private JTextField edtCustomerPhone = new JTextField(20);
-	
+
 	private Customer originCustomer = null;
 
-	public FrmCustomer_Modify(FrmCustomerManager frmCustomerManager, String s, boolean b, Customer customer)
+	public FrmCustomer_Modify(FrmCustomerManager frmCustomerManager, String s,
+			boolean b, Customer customer)
 	{
 		super(frmCustomerManager, "新建客户", b);
+
+		//传入原始客户信息
+		originCustomer = customer;
+
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
-		
-		//传入原始客户信息
-		originCustomer = customer;
-		
+
 		workPane.setLayout(null);
 		labelCustomerName.setBounds(50, 43, 100, 14);
 		workPane.add(labelCustomerName);
-
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-		
+
 		labelCustomerAddress.setBounds(50, 83, 100, 14);
 		workPane.add(labelCustomerAddress);
-		
+
 		labelCustomerPhone.setBounds(50, 123, 100, 14);
 		workPane.add(labelCustomerPhone);
-		
+
 		edtCustomerName.setBounds(150, 40, 100, 20);
 		edtCustomerName.setText(originCustomer.getCustomerName());
 		workPane.add(edtCustomerName);
-		
+
 		edtCustomerAddress.setBounds(150, 80, 100, 20);
 		edtCustomerAddress.setText(originCustomer.getCustomerAddress());
 		workPane.add(edtCustomerAddress);
-		
+
 		edtCustomerPhone.setBounds(150, 120, 100, 20);
 		edtCustomerPhone.setText(originCustomer.getCustomerPhone());
 		workPane.add(edtCustomerPhone);
-		
+
 		this.setSize(360, 250);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();

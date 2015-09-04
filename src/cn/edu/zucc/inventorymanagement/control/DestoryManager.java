@@ -1,20 +1,18 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Destory;
-import cn.edu.zucc.inventorymanagement.util.BaseException;
-import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
 public class DestoryManager
 {
 	public void createDestory(Destory destory)
 	{
+		//创建报废清单
 		Connection conn = null;
 		try
 		{
@@ -52,6 +50,7 @@ public class DestoryManager
 
 	public Destory searchDestory(int destoryId)
 	{
+		//通过destoryId查询报废清单
 		Destory destory = new Destory();
 		Connection conn = null;
 		try
@@ -97,6 +96,7 @@ public class DestoryManager
 
 	public List<Destory> loadAllDestory()
 	{
+		//加载所有报废清单
 		List<Destory> result = new ArrayList<Destory>();
 		Connection conn = null;
 		try

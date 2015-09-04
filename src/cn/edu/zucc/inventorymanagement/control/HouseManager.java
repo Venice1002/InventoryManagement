@@ -25,8 +25,6 @@ public class HouseManager
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, house.getHouseName());
 			pst.setString(2, house.getHouseAddress());
-			// pst.setTimestamp(3,
-			// new java.sql.Timestamp(System.currentTimeMillis()));
 			pst.setString(3, house.getLinkman());
 			pst.setString(4, house.getLinkPhone());
 			pst.setFloat(5, house.getTotalAmount());
@@ -60,6 +58,7 @@ public class HouseManager
 
 	public List<House> loadAllHouse()
 	{
+		//¼ÓÔØËùÓÐ²Ö¿â
 		List<House> result = new ArrayList<House>();
 		Connection conn = null;
 		try
@@ -266,6 +265,7 @@ public class HouseManager
 
 	public void deleteHouse(int houseId)
 	{
+		//É¾³ý²Ö¿â£¨Ó²É¾³ý£©
 		Connection conn = null;
 		try
 		{
@@ -311,6 +311,7 @@ public class HouseManager
 	
 	public static void main(String[] args) throws BaseException
 	{
+		//main for test
 		HouseManager hm = new HouseManager();
 		System.out.println(hm.searchHouseByHouseName("°¡¹þ").getHouseId());
 	}

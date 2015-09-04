@@ -49,6 +49,7 @@ public class CustomerManager
 
 	public List<Customer> loadAllCustomer()
 	{
+		//加载所有客户
 		List<Customer> result = new ArrayList<Customer>();
 		Connection conn = null;
 		try
@@ -223,6 +224,7 @@ public class CustomerManager
 
 	public void deleteCustomer(int customerId)
 	{
+		//删除客户（硬删除）
 		Connection conn = null;
 		try
 		{

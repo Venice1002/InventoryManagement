@@ -43,10 +43,11 @@ public class FrmDestoryManager extends JDialog implements ActionListener
 
 	private void reloadStoreTabel()
 	{
+		//加载库存清单
+		//可以从库存清单中选择一项进行报废操作
 		storeList = (new StoreManager()).loadAllStore();
 
 		tblStoreData = new Object[storeList.size()][7];
-		//加载库存清单
 		for (int i = 0; i < storeList.size(); i++)
 		{
 			tblStoreData[i][0] = storeList.get(i).getStoreId();

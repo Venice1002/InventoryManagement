@@ -78,35 +78,42 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
+		
 		labelBatchId.setBounds(30, 18, 70, 14);
 		workPane.add(labelBatchId);
+		
 		edtBatchId.setBounds(112, 15, 120, 20);
 		workPane.add(edtBatchId);
+		
 		labelEnterAmount.setBounds(30, 80, 70, 14);
 		workPane.add(labelEnterAmount);
+		
 		edtEnterAmount.setBounds(112, 77, 120, 20);
 		workPane.add(edtEnterAmount);
+		
 		labelEnterTime.setBounds(30, 118, 70, 14);
 		workPane.add(labelEnterTime);
+		
 		edtEnterTime.setBounds(112, 112, 120, 20);
-		//		edtEnterTime.setText(new java.sql.Timestamp(System
-		//						.currentTimeMillis()).toString());
 		workPane.add(edtEnterTime);
+		
 		labelNote.setBounds(30, 143, 400, 14);
 		workPane.add(labelNote);
+		
 		labelHouse.setBounds(30, 171, 55, 14);
 		workPane.add(labelHouse);
 
 		cmbHouse = new JComboBox();
 		cmbHouse.setBounds(71, 168, 80, 20);
+		workPane.add(cmbHouse);
 		cmbGoods = new JComboBox();
 		cmbGoods.setBounds(202, 168, 80, 20);
-		workPane.add(cmbHouse);
-		labelGoods.setBounds(165, 171, 55, 14);
-		workPane.add(labelGoods);
 		workPane.add(cmbGoods);
 		this.getContentPane().add(workPane, BorderLayout.CENTER);
-
+		
+		labelGoods.setBounds(165, 171, 55, 14);
+		workPane.add(labelGoods);
+		
 		labelEnterPrice.setBounds(30, 49, 70, 14);
 		workPane.add(labelEnterPrice);
 

@@ -1,20 +1,23 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Return;
-import cn.edu.zucc.inventorymanagement.util.BaseException;
-import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
+
+/*
+ * 注：return在java中是保留字
+ * 所以变量名使用re
+ * */
 
 public class ReturnManager
 {
 	public void createReturn(Return re)
 	{
+		//新建退库单
 		Connection conn = null;
 		try
 		{
@@ -54,6 +57,7 @@ public class ReturnManager
 
 	public Return searchReturn(int reId)
 	{
+		//通过reId查询退库单
 		Return re = new Return();
 		Connection conn = null;
 		try
@@ -101,6 +105,7 @@ public class ReturnManager
 
 	public List<Return> loadAllReturn()
 	{
+		//加载所有退库清单
 		List<Return> result = new ArrayList<Return>();
 		Connection conn = null;
 		try

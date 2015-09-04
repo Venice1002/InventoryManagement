@@ -49,7 +49,7 @@ public class FrmReturnManager extends JDialog implements ActionListener
 		exitList = (new ExitManager()).loadAllExit();
 
 		tblExitData = new Object[exitList.size()][10];
-		//加载库存清单
+		//加载出库清单
 		for (int i = 0; i < exitList.size(); i++)
 		{
 			tblExitData[i][0] = exitList.get(i).getExitId();

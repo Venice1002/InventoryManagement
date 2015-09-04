@@ -25,7 +25,7 @@ public class FrmEnter_Check extends JDialog
 	DefaultTableModel tabEnterModel = new DefaultTableModel();
 	private JTable dataEnter = new JTable(tabEnterModel);
 
-	private void reloadTable()
+	private void reloadEnterTable()
 	{
 		// 重新加载入库单信息
 		enterList = (new EnterManager()).loadAllEnter();
@@ -53,7 +53,7 @@ public class FrmEnter_Check extends JDialog
 		super(frmEnterManager, s, b);
 
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadEnterTable();
 		this.getContentPane().add(new JScrollPane(this.dataEnter),
 				BorderLayout.CENTER);
 

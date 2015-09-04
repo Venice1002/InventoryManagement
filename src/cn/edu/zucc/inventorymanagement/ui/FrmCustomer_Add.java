@@ -8,11 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JPanel;
 
 import cn.edu.zucc.inventorymanagement.control.CustomerManager;
 import cn.edu.zucc.inventorymanagement.model.Customer;
@@ -35,22 +33,26 @@ public class FrmCustomer_Add extends JDialog implements ActionListener
 	public FrmCustomer_Add(FrmCustomerManager frmCustomerManager, String s, boolean b)
 	{
 		super(frmCustomerManager, "新建客户", b);
+		
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
+		
 		workPane.setLayout(null);
+		this.getContentPane().add(workPane, BorderLayout.CENTER);
+		
 		labelCustomerName.setBounds(50, 43, 100, 14);
 		workPane.add(labelCustomerName);
-		edtCustomerName.setBounds(150, 40, 100, 20);
-		workPane.add(edtCustomerName);
-		this.getContentPane().add(workPane, BorderLayout.CENTER);
 		
 		labelCustomerAddress.setBounds(50, 83, 100, 14);
 		workPane.add(labelCustomerAddress);
 		
 		labelCustomerPhone.setBounds(50, 123, 100, 14);
 		workPane.add(labelCustomerPhone);
+		
+		edtCustomerName.setBounds(150, 40, 100, 20);
+		workPane.add(edtCustomerName);
 		
 		edtCustomerAddress.setBounds(150, 80, 100, 20);
 		workPane.add(edtCustomerAddress);

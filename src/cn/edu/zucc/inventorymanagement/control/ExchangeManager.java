@@ -1,20 +1,18 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Exchange;
-import cn.edu.zucc.inventorymanagement.util.BaseException;
-import cn.edu.zucc.inventorymanagement.util.BusinessException;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
 public class ExchangeManager
 {
 	public void createExchange(Exchange exchange)
 	{
+		//创建移库清单
 		Connection conn = null;
 		try
 		{
@@ -54,6 +52,7 @@ public class ExchangeManager
 
 	public Exchange searchExchange(int exchangeId)
 	{
+		//通过exchangId查询移库清单
 		Exchange exchange = new Exchange();
 		Connection conn = null;
 		try
@@ -100,6 +99,7 @@ public class ExchangeManager
 
 	public List<Exchange> loadAllExchange()
 	{
+		//加载所有移库单
 		List<Exchange> result = new ArrayList<Exchange>();
 		Connection conn = null;
 		try

@@ -49,6 +49,7 @@ public class SupplierManager
 
 	public List<Supplier> loadAllSupplier()
 	{
+		//加载所有供应商
 		List<Supplier> result = new ArrayList<Supplier>();
 		Connection conn = null;
 		try
@@ -222,6 +223,7 @@ public class SupplierManager
 
 	public void deleteSupplier(int supplierId)
 	{
+		//删除供应商（硬删除）
 		Connection conn = null;
 		try
 		{

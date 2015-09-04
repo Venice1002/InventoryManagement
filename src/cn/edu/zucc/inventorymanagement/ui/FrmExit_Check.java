@@ -26,12 +26,12 @@ public class FrmExit_Check extends JDialog
 
 	List<Exit> exitList = null;
 
-	private void reloadTable()
+	private void reloadExitTable()
 	{
 		exitList = (new ExitManager()).loadAllExit();
 
 		tblExitData = new Object[exitList.size()][10];
-		//加载库存清单
+		//加载出库清单
 		for (int i = 0; i < exitList.size(); i++)
 		{
 			tblExitData[i][0] = exitList.get(i).getExitId();
@@ -56,7 +56,7 @@ public class FrmExit_Check extends JDialog
 		super(frmExitManager, s, b);
 
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadExitTable();
 		this.getContentPane().add(new JScrollPane(this.dataExit),
 				BorderLayout.CENTER);
 

@@ -1,12 +1,10 @@
 package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.zucc.inventorymanagement.model.House;
 import cn.edu.zucc.inventorymanagement.model.Store;
 import cn.edu.zucc.inventorymanagement.util.BaseException;
 import cn.edu.zucc.inventorymanagement.util.BusinessException;
@@ -16,6 +14,7 @@ public class StoreManager
 {
 	public void createStore(Store store)
 	{
+		//创建库存清单
 		Connection conn = null;
 		try
 		{
@@ -53,6 +52,7 @@ public class StoreManager
 
 	public Store searchStore(int storeId)
 	{
+		//通过storeId查询库存清单
 		Store store = new Store();
 		Connection conn = null;
 		try
@@ -97,6 +97,8 @@ public class StoreManager
 	
 	public Store searchStore(int houseId, int batchId, int goodsId)
 	{
+		//通过houseId,batchId,goodsId查询库存清单
+		//若未找到 返回null
 		Store store = new Store();
 		Connection conn = null;
 		try
@@ -122,7 +124,6 @@ public class StoreManager
 			}
 			else
 			{
-				//若未找到 返回null
 				return null;
 			}
 		}
@@ -149,7 +150,7 @@ public class StoreManager
 
 	public void modifyStore(Store store) throws BaseException
 	{
-		// 修改仓库
+		// 修改仓库信息
 		Connection conn = null;
 		try
 		{
@@ -197,6 +198,7 @@ public class StoreManager
 
 	public List<Store> loadStoreByHouseId(int houseId)
 	{
+		//通过houseId加载所有库存清单
 		List<Store> result = new ArrayList<Store>();
 		Connection conn = null;
 		try
@@ -242,6 +244,7 @@ public class StoreManager
 
 	public List<Store> loadAllStore()
 	{
+		//加载所有库存清单
 		List<Store> result = new ArrayList<Store>();
 		Connection conn = null;
 		try

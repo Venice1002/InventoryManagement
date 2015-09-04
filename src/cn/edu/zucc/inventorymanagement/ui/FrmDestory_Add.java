@@ -72,66 +72,63 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 			Store store)
 	{
 		super(frmDestoryManager, s, b);
+		
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
 		this.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		workPane.setLayout(null);
 
+		labelGoods.setBounds(165, 171, 55, 14);
+		workPane.add(labelGoods);
+		
+		labelDestoryPrice.setBounds(30, 49, 70, 14);
+		workPane.add(labelDestoryPrice);
+		
 		labelBatchId.setBounds(30, 18, 70, 14);
 		workPane.add(labelBatchId);
+		
+		labelDestoryAmount.setBounds(30, 80, 70, 14);
+		workPane.add(labelDestoryAmount);
+
+		labelDestoryTime.setBounds(30, 118, 70, 14);
+		workPane.add(labelDestoryTime);
+		
+		labelNote.setBounds(30, 143, 400, 14);
+		workPane.add(labelNote);
+
+		labelHouse.setBounds(30, 171, 55, 14);
+		workPane.add(labelHouse);
+		
+		labelUnit.setBounds(277, 18, 70, 14);
+		workPane.add(labelUnit);
+		
+		labelDestoryNote.setBounds(277, 49, 70, 14);
+		workPane.add(labelDestoryNote);
+		
+		labelWorker.setBounds(277, 80, 70, 14);
+		workPane.add(labelWorker);
 
 		edtBatchId.setBounds(112, 15, 120, 20);
 		edtBatchId.setText(String.valueOf(store.getBatchId()));
 		edtBatchId.setEnabled(false);
 		workPane.add(edtBatchId);
 
-		labelDestoryAmount.setBounds(30, 80, 70, 14);
-		workPane.add(labelDestoryAmount);
-
 		edtDestoryAmount.setBounds(112, 77, 120, 20);
 		workPane.add(edtDestoryAmount);
 
-		labelDestoryTime.setBounds(30, 118, 70, 14);
-		workPane.add(labelDestoryTime);
-
 		edtDestoryTime.setBounds(112, 112, 120, 20);
 		workPane.add(edtDestoryTime);
-
-		labelNote.setBounds(30, 143, 400, 14);
-		workPane.add(labelNote);
-
-		labelHouse.setBounds(30, 171, 55, 14);
-		workPane.add(labelHouse);
-
-		cmbHouse = new JComboBox();
-		cmbHouse.setBounds(71, 168, 80, 20);
-		cmbGoods = new JComboBox();
-		cmbGoods.setBounds(202, 168, 80, 20);
-		workPane.add(cmbHouse);
-		labelGoods.setBounds(165, 171, 55, 14);
-		workPane.add(labelGoods);
-		workPane.add(cmbGoods);
-		this.getContentPane().add(workPane, BorderLayout.CENTER);
-
-		labelDestoryPrice.setBounds(30, 49, 70, 14);
-		workPane.add(labelDestoryPrice);
 
 		edtDestoryPrice.setBounds(112, 46, 120, 20);
 		edtDestoryPrice.setText(String.valueOf(store.getStorePrice()));
 		edtDestoryPrice.setEnabled(false);
 		workPane.add(edtDestoryPrice);
 
-		labelUnit.setBounds(277, 18, 70, 14);
-		workPane.add(labelUnit);
-
 		edtUnit.setBounds(341, 15, 120, 20);
 		edtUnit.setText(store.getUnit());
 		edtUnit.setEnabled(false);
 		workPane.add(edtUnit);
-
-		labelDestoryNote.setBounds(277, 49, 70, 14);
-		workPane.add(labelDestoryNote);
 
 		edtDestoryNote.setBounds(341, 46, 120, 20);
 		workPane.add(edtDestoryNote);
@@ -140,8 +137,14 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 		edtWorker.setText(WorkerManager.currentWorker.getWorkerName());
 		workPane.add(edtWorker);
 
-		labelWorker.setBounds(277, 80, 70, 14);
-		workPane.add(labelWorker);
+		cmbHouse = new JComboBox();
+		cmbHouse.setBounds(71, 168, 80, 20);
+		workPane.add(cmbHouse);
+		cmbGoods = new JComboBox();
+		cmbGoods.setBounds(202, 168, 80, 20);
+		workPane.add(cmbGoods);
+		this.getContentPane().add(workPane, BorderLayout.CENTER);
+
 		this.setSize(500, 300);
 		// 屏幕居中显示
 		double width = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -150,6 +153,7 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 				(int) (height - this.getHeight()) / 2);
 
 		this.validate();
+		
 		this.btnOk.addActionListener(this);
 		this.btnCancel.addActionListener(this);
 		this.cmbHouse.addActionListener(this);
@@ -191,6 +195,7 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 			HouseManager hm = new HouseManager();
 			GoodsManager gm = new GoodsManager();
 
+			//读取下拉菜单中的选项 
 			try
 			{
 				house = hm.searchHouseByHouseName(cmbHouse.getSelectedItem()
@@ -204,6 +209,8 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 				e2.printStackTrace();
 			}
 
+			//判断是否输入时间
+			//若无输入，则使用系统时间
 			if (edtDestoryTime.getText().equals(""))
 				destory.setDestoryTime(new java.sql.Timestamp(System
 						.currentTimeMillis()));

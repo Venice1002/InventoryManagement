@@ -41,9 +41,9 @@ public class FrmEnterManager extends JDialog implements ActionListener
 	DefaultTableModel tabHouseModel = new DefaultTableModel();
 	private JTable dataHouse = new JTable(tabHouseModel);
 
-	private void reloadTable()
+	private void reloadHouseTable()
 	{
-		// 重新加载入库单信息
+		// 重新加载仓库信息
 		houseList = (new HouseManager()).loadAllHouse();
 		tblHouseData = new Object[houseList.size()][10];
 		for (int i = 0; i < houseList.size(); i++)
@@ -71,7 +71,7 @@ public class FrmEnterManager extends JDialog implements ActionListener
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadHouseTable();
 		this.getContentPane().add(new JScrollPane(this.dataHouse),
 				BorderLayout.CENTER);
 
@@ -123,11 +123,11 @@ public class FrmEnterManager extends JDialog implements ActionListener
 			}
 			FrmEnter_Add dlg = new FrmEnter_Add(this, "新建入库单", true, house);
 			dlg.setVisible(true);
-			this.reloadTable();
+			this.reloadHouseTable();
 		}
 		else if (e.getSource() == this.btnSearch)
 		{
-			this.reloadTable();
+			this.reloadHouseTable();
 		}
 		else if (e.getSource() == btnCheck)
 		{

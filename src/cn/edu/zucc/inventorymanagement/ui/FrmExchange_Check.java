@@ -25,9 +25,9 @@ public class FrmExchange_Check extends JDialog
 	DefaultTableModel tabExchangeModel = new DefaultTableModel();
 	private JTable dataExchange = new JTable(tabExchangeModel);
 
-	private void reloadTable()
+	private void reloadExchangeTable()
 	{
-		// 重新加载入库单信息
+		// 重新加载移库单信息
 		exchangeList = (new ExchangeManager()).loadAllExchange();
 		tblExchangeData = new Object[exchangeList.size()][10];
 		for (int i = 0; i < exchangeList.size(); i++)
@@ -52,7 +52,7 @@ public class FrmExchange_Check extends JDialog
 		super(frmExchangeManager, s, b);
 
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadExchangeTable();
 		this.getContentPane().add(new JScrollPane(this.dataExchange),
 				BorderLayout.CENTER);
 

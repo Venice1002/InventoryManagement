@@ -26,12 +26,12 @@ public class FrmReturn_Check extends JDialog
 
 	List<Return> reList = null;
 
-	private void reloadTable()
+	private void reloadReturnTable()
 	{
 		reList = (new ReturnManager()).loadAllReturn();
 
 		tblReturnData = new Object[reList.size()][10];
-		//加载库存清单
+		//加载退库清单
 		for (int i = 0; i < reList.size(); i++)
 		{
 			tblReturnData[i][0] = reList.get(i).getReturnId();
@@ -56,7 +56,7 @@ public class FrmReturn_Check extends JDialog
 		super(frmReturnManager, s, b);
 
 		// 提取现有数据
-		this.reloadTable();
+		this.reloadReturnTable();
 		this.getContentPane().add(new JScrollPane(this.dataReturn),
 				BorderLayout.CENTER);
 
