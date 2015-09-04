@@ -33,6 +33,7 @@ public class FrmReturnManager extends JDialog implements ActionListener
 	private Button btnAdd = new Button("退库");
 	private JTextField edtKeyword = new JTextField(10);
 	private Button btnSearch = new Button("查询");
+	private Button btnCheck = new Button("盘查");
 
 	private Object tblExitTitle[] =
 		{ "出库单编号", "仓库编号", "物料编号", "批次号", "出库单编号", "出库单价", "出库数量", "出库时间", "出库人",
@@ -75,6 +76,7 @@ public class FrmReturnManager extends JDialog implements ActionListener
 		toolBar.add(btnAdd);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
+		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
@@ -93,6 +95,7 @@ public class FrmReturnManager extends JDialog implements ActionListener
 
 		this.btnAdd.addActionListener(this);
 		this.btnSearch.addActionListener(this);
+		this.btnCheck.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
@@ -125,6 +128,11 @@ public class FrmReturnManager extends JDialog implements ActionListener
 		else if (e.getSource() == this.btnSearch)
 		{
 			this.reloadExitTabel();
+		}
+		else if (e.getSource() == this.btnCheck)
+		{
+			FrmReturn_Check dlg = new FrmReturn_Check(this, "退库单盘查", true);
+			dlg.setVisible(true);
 		}
 
 	}

@@ -31,6 +31,7 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 	private Button btnExchange = new Button("移库");
 	private JTextField edtKeyword = new JTextField(10);
 	private Button btnSearch = new Button("查询");
+	private Button btnCheck = new Button("盘查");
 
 	private Object tblStore[] =
 	{ "编号", "仓库编号", "物料编号", "批次号", "存储数量", "入库单价", "单位" };
@@ -69,6 +70,7 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 		toolBar.add(btnExchange);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
+		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
@@ -87,6 +89,7 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 
 		this.btnExchange.addActionListener(this);
 		this.btnSearch.addActionListener(this);
+		this.btnCheck.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
@@ -119,6 +122,11 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 		else if (e.getSource() == this.btnSearch)
 		{
 			this.reloadStoreTabel();
+		}
+		else if (e.getSource() == this.btnCheck)
+		{
+			FrmExchange_Check dlg = new FrmExchange_Check(this, "移库单盘查", true);
+			dlg.setVisible(true);
 		}
 
 	}

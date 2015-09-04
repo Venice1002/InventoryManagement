@@ -20,7 +20,12 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import cn.edu.zucc.inventorymanagement.control.EnterManager;
+import cn.edu.zucc.inventorymanagement.control.HouseManager;
+import cn.edu.zucc.inventorymanagement.control.StoreManager;
 import cn.edu.zucc.inventorymanagement.model.Enter;
+import cn.edu.zucc.inventorymanagement.model.House;
+import cn.edu.zucc.inventorymanagement.model.Store;
+import cn.edu.zucc.inventorymanagement.util.BaseException;
 
 public class FrmEnterManager extends JDialog implements ActionListener
 {
@@ -28,35 +33,31 @@ public class FrmEnterManager extends JDialog implements ActionListener
 	private Button btnAdd = new Button("入库");
 	private JTextField edtKeyword = new JTextField(10);
 	private Button btnSearch = new Button("查询");
-	private Object tblEnterTitle[] =
-	{ "入库单编号", "仓库编号", "物料编号", "批次号", "入库单编号", "入库单价", "入库数量", "入库时间", "入库人",
-			"备注" };
-	private Object tblEnterData[][];
-	List<Enter> enterList = null;
-	DefaultTableModel tabEnterModel = new DefaultTableModel();
-	private JTable dataEnter = new JTable(tabEnterModel);
+	private Button btnCheck = new Button("盘查");
+	private Object tblHouseTitle[] =
+	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
+	private Object tblHouseData[][];
+	List<House> houseList = null;
+	DefaultTableModel tabHouseModel = new DefaultTableModel();
+	private JTable dataHouse = new JTable(tabHouseModel);
 
 	private void reloadTable()
 	{
 		// 重新加载入库单信息
-		enterList = (new EnterManager()).loadAllEnter();
-		tblEnterData = new Object[enterList.size()][10];
-		for (int i = 0; i < enterList.size(); i++)
+		houseList = (new HouseManager()).loadAllHouse();
+		tblHouseData = new Object[houseList.size()][10];
+		for (int i = 0; i < houseList.size(); i++)
 		{
-			tblEnterData[i][0] = enterList.get(i).getEnterId();
-			tblEnterData[i][1] = enterList.get(i).getHouseId();
-			tblEnterData[i][2] = enterList.get(i).getGoodsId();
-			tblEnterData[i][3] = enterList.get(i).getBatchId();
-			tblEnterData[i][4] = enterList.get(i).getSupplierId();
-			tblEnterData[i][5] = enterList.get(i).getEnterPrice();
-			tblEnterData[i][6] = enterList.get(i).getEnterAmount();
-			tblEnterData[i][7] = enterList.get(i).getEnterTime();
-			tblEnterData[i][8] = enterList.get(i).getWorkerId();
-			tblEnterData[i][9] = enterList.get(i).getEnterNote();
+			tblHouseData[i][0] = houseList.get(i).getHouseId();
+			tblHouseData[i][1] = houseList.get(i).getHouseName();
+			tblHouseData[i][2] = houseList.get(i).getTotalAmount();
+			tblHouseData[i][3] = houseList.get(i).getTotalPrice();
+			tblHouseData[i][4] = houseList.get(i).getHouseState();
+			tblHouseData[i][5] = "更多";
 		}
-		tabEnterModel.setDataVector(tblEnterData, tblEnterTitle);
-		this.dataEnter.validate();
-		this.dataEnter.repaint();
+		tabHouseModel.setDataVector(tblHouseData, tblHouseTitle);
+		this.dataHouse.validate();
+		this.dataHouse.repaint();
 	}
 
 	public FrmEnterManager(Frame f, String s, boolean b)
@@ -66,11 +67,12 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		toolBar.add(btnAdd);
 		toolBar.add(edtKeyword);
 		toolBar.add(btnSearch);
+		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
 		// 提取现有数据
 		this.reloadTable();
-		this.getContentPane().add(new JScrollPane(this.dataEnter),
+		this.getContentPane().add(new JScrollPane(this.dataHouse),
 				BorderLayout.CENTER);
 
 		// 屏幕居中显示
@@ -84,6 +86,8 @@ public class FrmEnterManager extends JDialog implements ActionListener
 
 		this.btnAdd.addActionListener(this);
 		this.btnSearch.addActionListener(this);
+		this.btnCheck.addActionListener(this);
+		
 		this.addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
@@ -99,7 +103,25 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		// TODO Auto-generated method stub
 		if (e.getSource() == this.btnAdd)
 		{
-			FrmEnter_Add dlg = new FrmEnter_Add(this, "新建入库单", true);
+			int i = this.dataHouse.getSelectedRow();
+			if (i < 0)
+			{
+				JOptionPane.showMessageDialog(null, "请选择仓库", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			int houseId = Integer.parseInt(this.tblHouseData[i][0].toString());
+			House house = null;
+			try
+			{
+				house = (new HouseManager()).searchHouseByHouseId(houseId);
+			}
+			catch (BaseException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			FrmEnter_Add dlg = new FrmEnter_Add(this, "新建入库单", true, house);
 			dlg.setVisible(true);
 			this.reloadTable();
 		}
@@ -107,6 +129,10 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		{
 			this.reloadTable();
 		}
-
+		else if (e.getSource() == btnCheck)
+		{
+			FrmEnter_Check dlg = new FrmEnter_Check(this, "入库单盘查", true);
+			dlg.setVisible(true);
+		}
 	}
 }

@@ -247,7 +247,7 @@ public class FrmMain extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == menuItem_ExitManage)
 		{
-			FrmDestoryManager dlg = new FrmDestoryManager(this, "出库管理", true);
+			FrmExitManager dlg = new FrmExitManager(this, "出库管理", true);
 			dlg.setVisible(true);
 		}
 		else if (e.getSource() == menuItem_ReturnManage)

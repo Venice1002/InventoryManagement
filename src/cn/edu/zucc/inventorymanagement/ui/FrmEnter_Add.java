@@ -62,14 +62,15 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 	private JComboBox cmbHouse;
 	private JComboBox cmbGoods;
 	private JComboBox cmbSupplier;
-	private List<House> houseList = null;
+	private House house = null;
 	private List<Goods> goodsList = null;
 	private List<Supplier> supplierList = null;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrmEnter_Add(FrmEnterManager frmEnterManager, String s, boolean b)
+	public FrmEnter_Add(FrmEnterManager frmEnterManager, String s, boolean b,
+			House house)
 	{
 		super(frmEnterManager, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -111,25 +112,25 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 
 		edtEnterPrice.setBounds(112, 46, 120, 20);
 		workPane.add(edtEnterPrice);
-		
+
 		labelUnit.setBounds(277, 18, 70, 14);
 		workPane.add(labelUnit);
-		
+
 		edtUnit.setBounds(341, 15, 120, 20);
 		workPane.add(edtUnit);
-		
+
 		labelEnterNote.setBounds(277, 49, 70, 14);
 		workPane.add(labelEnterNote);
-		
+
 		edtEnterNote.setBounds(341, 46, 120, 20);
 		workPane.add(edtEnterNote);
 		edtWorker.setBounds(341, 77, 120, 20);
 		edtWorker.setText(WorkerManager.currentWorker.getWorkerName());
 		workPane.add(edtWorker);
-		
+
 		labelWorker.setBounds(277, 80, 70, 14);
 		workPane.add(labelWorker);
-		
+
 		labelSupplier.setBounds(292, 171, 55, 14);
 		workPane.add(labelSupplier);
 
@@ -149,15 +150,20 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		this.cmbHouse.addActionListener(this);
 		this.cmbGoods.addActionListener(this);
 		this.cmbSupplier.addActionListener(this);
-		
+
 		//初始化下拉菜单
-		houseList = (new HouseManager()).loadAllHouse();
-		cmbHouse.addItem("");
-		for (int i = 0; i < houseList.size(); i++)
+		try
 		{
-			cmbHouse.addItem(houseList.get(i).getHouseName());
+			this.house = (new HouseManager()).searchHouseByHouseId(house
+					.getHouseId());
+			cmbHouse.addItem(house.getHouseName());
 		}
-		
+		catch (BaseException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		cmbGoods.removeAllItems();
 		goodsList = (new GoodsManager()).loadAllGoods();
 		cmbGoods.addItem("");
@@ -165,7 +171,7 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 		{
 			cmbGoods.addItem(goodsList.get(i).getGoodsName());
 		}
-		
+
 		cmbSupplier.removeAllItems();
 		supplierList = (new SupplierManager()).loadAllSupplier();
 		cmbSupplier.addItem("");
@@ -238,7 +244,7 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 			enter.setEnterPrice(Float.valueOf(edtEnterPrice.getText()));
 			enter.setWorkerId(WorkerManager.currentWorker.getWorkerId());
 			enter.setEnterNote(edtEnterNote.getText());
-			
+
 			store.setHouseId(house.getHouseId());
 			store.setGoodsId(goods.getGoodsId());
 			store.setBatchId(enter.getBatchId());

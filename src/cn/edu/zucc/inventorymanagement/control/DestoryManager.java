@@ -68,8 +68,8 @@ public class DestoryManager
 				destory.setHouseId(rs.getInt(2));
 				destory.setGoodsId(rs.getInt(3));
 				destory.setBatchId(rs.getInt(4));
-				destory.setDestoryAmount(rs.getFloat(5));
-				destory.setDestoryTime(rs.getDate(6));
+				destory.setDestoryTime(rs.getDate(5));
+				destory.setDestoryAmount(rs.getFloat(6));
 				destory.setDestoryNote(rs.getString(7));
 				destory.setWorkerId(rs.getInt(8));
 			}
@@ -114,8 +114,8 @@ public class DestoryManager
 				destory.setHouseId(rs.getInt(2));
 				destory.setGoodsId(rs.getInt(3));
 				destory.setBatchId(rs.getInt(4));
-				destory.setDestoryAmount(rs.getFloat(5));
-				destory.setDestoryTime(rs.getDate(6));
+				destory.setDestoryTime(rs.getDate(5));
+				destory.setDestoryAmount(rs.getFloat(6));
 				destory.setDestoryNote(rs.getString(7));
 				destory.setWorkerId(rs.getInt(8));
 				result.add(destory);
