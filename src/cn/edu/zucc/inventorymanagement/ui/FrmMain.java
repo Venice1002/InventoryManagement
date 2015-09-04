@@ -265,5 +265,10 @@ public class FrmMain extends JFrame implements ActionListener
 			FrmExchangeManager dlg = new FrmExchangeManager(this, "ÒÆ¿â¹ÜÀí", true);
 			dlg.setVisible(true);
 		}
+		else if (e.getSource() == menuItem_modifyPwd)
+		{
+			FrmModifyPwd dlg = new FrmModifyPwd(this, "ÃÜÂëĞŞ¸Ä", true);
+			dlg.setVisible(true);
+		}
 	}
 }

@@ -122,7 +122,7 @@ public class WorkerManager
 				throw new BusinessException("²»´æÔÚ");
 			rs.close();
 			pst.close();
-			sql = "update Worker set wokerPwd=? where workerId=?";
+			sql = "update Worker set workerPwd=? where workerId=?";
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, worker.getWorkerPwd());
 			pst.setInt(2, worker.getWorkerId());
