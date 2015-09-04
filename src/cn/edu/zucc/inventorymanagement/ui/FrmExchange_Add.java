@@ -70,8 +70,8 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrmExchange_Add(FrmExchangeManager frmExchangeManager, String s, boolean b,
-			Store store)
+	public FrmExchange_Add(FrmExchangeManager frmExchangeManager, String s,
+			boolean b, Store store)
 	{
 		super(frmExchangeManager, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -105,9 +105,7 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 
 		labelLastHouse.setBounds(30, 171, 55, 14);
 		workPane.add(labelLastHouse);
-		
-		
-		
+
 		labelNextHouse.setBounds(170, 171, 55, 14);
 		workPane.add(labelNextHouse);
 
@@ -171,7 +169,7 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 			lastHouse = (new HouseManager()).searchHouseByHouseId(store
 					.getHouseId());
 			cmbLastHouse.addItem(lastHouse.getHouseName());
-			
+
 			nextHouseList = (new HouseManager()).loadAllHouse();
 			cmbNextHouse.addItem("");
 			for (int i = 0; i < nextHouseList.size(); i++)
@@ -212,10 +210,10 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 
 			try
 			{
-				lastHouse = hm.searchHouseByHouseName(cmbLastHouse.getSelectedItem()
-						.toString());
-				nextHouse = hm.searchHouseByHouseName(cmbNextHouse.getSelectedItem()
-						.toString());
+				lastHouse = hm.searchHouseByHouseName(cmbLastHouse
+						.getSelectedItem().toString());
+				nextHouse = hm.searchHouseByHouseName(cmbNextHouse
+						.getSelectedItem().toString());
 				goods = gm.searchGoodsByGoodsName(cmbGoods.getSelectedItem()
 						.toString());
 			}
@@ -250,17 +248,32 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 			exchange.setGoodsId(goods.getGoodsId());
 			exchange.setLastHouseId(lastHouse.getHouseId());
 			exchange.setNextHouseId(nextHouse.getHouseId());
-			exchange.setExchangeAmount(Float.valueOf(edtExchangeAmount.getText()));
+			exchange.setExchangeAmount(Float.valueOf(edtExchangeAmount
+					.getText()));
 			exchange.setWorkerId(WorkerManager.currentWorker.getWorkerId());
 			exchange.setExchangeNote(edtExchangeNote.getText());
 
-			lastStore = (new StoreManager()).searchStore(exchange.getLastHouseId(),exchange.getBatchId(),exchange.getGoodsId());
-			lastStore.setStoreAmount(lastStore.getStoreAmount() - exchange.getExchangeAmount());
+			lastStore = (new StoreManager()).searchStore(
+					exchange.getLastHouseId(), exchange.getBatchId(),
+					exchange.getGoodsId());
 			
+			//判断移库数量是否小于等于库存数量
+			if (exchange.getExchangeAmount() > lastStore.getStoreAmount())
+			{
+				JOptionPane.showMessageDialog(null, "移库数量不能大于库存数量", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			lastStore.setStoreAmount(lastStore.getStoreAmount()
+					- exchange.getExchangeAmount());
+
 			//如果移库的目标库存没有记录 则新增一条记录 ； 如果有记录 则更改数量
-			
-			nextStore = (new StoreManager()).searchStore(exchange.getNextHouseId(),exchange.getBatchId(),exchange.getGoodsId());
-			if(nextStore == null)
+
+			nextStore = (new StoreManager()).searchStore(
+					exchange.getNextHouseId(), exchange.getBatchId(),
+					exchange.getGoodsId());
+			if (nextStore == null)
 			{
 				nextStore = new Store();
 				System.out.println("create");
@@ -275,7 +288,8 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 			else
 			{
 				System.out.println("modify");
-				nextStore.setStoreAmount(nextStore.getStoreAmount() + exchange.getExchangeAmount());
+				nextStore.setStoreAmount(nextStore.getStoreAmount()
+						+ exchange.getExchangeAmount());
 				try
 				{
 					(new StoreManager()).modifyStore(nextStore);
@@ -290,7 +304,7 @@ public class FrmExchange_Add extends JDialog implements ActionListener
 			try
 			{
 				(new StoreManager()).modifyStore(lastStore);
-				
+
 			}
 			catch (BaseException e1)
 			{

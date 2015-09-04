@@ -240,6 +240,15 @@ public class FrmDestory_Add extends JDialog implements ActionListener
 			destory.setDestoryNote(edtDestoryNote.getText());
 
 			store = (new StoreManager()).searchStore(destory.getHouseId(),destory.getBatchId(),destory.getGoodsId());
+			
+			//判断报废数量是否小于等于库存数量
+			if(destory.getDestoryAmount() > store.getStoreAmount())
+			{
+				JOptionPane.showMessageDialog(null, "报废数量不能大于库存数量", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			store.setStoreAmount(store.getStoreAmount() - destory.getDestoryAmount());
 
 			(new DestoryManager()).createDestory(destory);

@@ -67,14 +67,19 @@ public class FrmReturn_Add extends JDialog implements ActionListener
 	private House house = null;
 	private Goods goods = null;
 	private Customer customer = null;
+	//保存出库记录 用以判断退库数量是否小于等于出库数量
+	private Exit exit = null;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrmReturn_Add(FrmReturnManager frmReturnManager, String s, boolean b,
-			Exit exit)
+	public FrmReturn_Add(FrmReturnManager frmReturnManager, String s,
+			boolean b, Exit exit)
 	{
 		super(frmReturnManager, s, b);
+
+		this.exit = exit;
+
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		toolBar.add(btnOk);
 		toolBar.add(btnCancel);
@@ -99,8 +104,6 @@ public class FrmReturn_Add extends JDialog implements ActionListener
 		workPane.add(labelExitTime);
 
 		edtExitTime.setBounds(112, 112, 120, 20);
-		//		edtExitTime.setText(new java.sql.Timestamp(System
-		//						.currentTimeMillis()).toString());
 		workPane.add(edtExitTime);
 
 		labelNote.setBounds(30, 143, 400, 14);
@@ -254,6 +257,14 @@ public class FrmReturn_Add extends JDialog implements ActionListener
 			re.setReturnPrice(Float.valueOf(edtExitPrice.getText()));
 			re.setWorkerId(WorkerManager.currentWorker.getWorkerId());
 			re.setReturnNote(edtExitNote.getText());
+
+			//判断退库数量是否小于等于出库数量
+			if (re.getReturnAmount() > exit.getExitAmount())
+			{
+				JOptionPane.showMessageDialog(null, "退库数量不能大于出库数量", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			store = (new StoreManager()).searchStore(re.getHouseId(),
 					re.getBatchId(), re.getGoodsId());

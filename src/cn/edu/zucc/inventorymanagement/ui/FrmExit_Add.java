@@ -257,6 +257,14 @@ public class FrmExit_Add extends JDialog implements ActionListener
 			store = (new StoreManager()).searchStore(exit.getHouseId(),exit.getBatchId(),exit.getGoodsId());
 			store.setStoreAmount(store.getStoreAmount() - exit.getExitAmount());
 
+			//判断出库数量是否小于等于库存数量
+			if(exit.getExitAmount() > store.getStoreAmount())
+			{
+				JOptionPane.showMessageDialog(null, "出库数量不能大于库存数量", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			(new ExitManager()).createExit(exit);
 			try
 			{
