@@ -100,8 +100,9 @@ public class EnterManager
 		}
 		return enter;
 	}
-	
-	public List<Enter> searchEnter(String lastTime, String nextTime, int listId, int houseId)
+
+	public List<Enter> searchEnter(String lastTime, String nextTime,
+			int listId, int houseId)
 	{
 		List<Enter> result = new ArrayList<Enter>();
 		Connection conn = null;
@@ -110,17 +111,18 @@ public class EnterManager
 			conn = DBUtil.getConnection();
 			String sql;
 			sql = "select * from Enter where 1=1 ";
-			if(!lastTime.equals("")  && !nextTime.equals("") )
+			if (!lastTime.equals("") && !nextTime.equals(""))
 			{
-				sql += "and enterTime between '" + lastTime + "' and '" + nextTime +"'";
+				sql += "and enterTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
 			}
-			if(listId != 0)
+			if (listId != 0)
 			{
-				sql += "and enterId = '"+ listId + "'";
+				sql += "and enterId = '" + listId + "'";
 			}
-			if(houseId != 0)
+			if (houseId != 0)
 			{
-				sql += "and houseId = '"+ houseId + "'";
+				sql += "and houseId = '" + houseId + "'";
 			}
 			sql += " order by enterId";
 			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
@@ -189,6 +191,50 @@ public class EnterManager
 				enter.setEnterNote(rs.getString(9));
 				enter.setWorkerId(rs.getInt(10));
 				result.add(enter);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+
+	public float countEnterAmount(String lastTime, String nextTime,
+			int houseId, int goodsId)
+	{
+		float result = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Enter where houseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			if (!lastTime.equals("") && !nextTime.equals(""))
+			{
+				sql += "and enterTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
+			}
+			sql += " order by enterId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				result += rs.getFloat(5);
 			}
 		}
 		catch (SQLException e)

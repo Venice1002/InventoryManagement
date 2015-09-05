@@ -46,7 +46,7 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenuItem menuItem_GoodsManage = new JMenuItem("物料管理");
 	private JMenuItem menuItem_SupplierManage = new JMenuItem("供应商管理");
 	private JMenuItem menuItem_CunstomManage = new JMenuItem("客户管理");
-	private JMenuItem menuItem_StoreCheck = new JMenuItem("库存盘查");
+	private JMenuItem menuItem_InventoryCheck = new JMenuItem("库存盘点");
 	private JMenuItem menuItem_EnterManage = new JMenuItem("入库管理");
 	private JMenuItem menuItem_ExitManage = new JMenuItem("出库管理");
 	private JMenuItem menuItem_ExchangeManage = new JMenuItem("移库管理");
@@ -148,8 +148,8 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menu_supAndCus.add(this.menuItem_CunstomManage);
 		this.menuItem_CunstomManage.addActionListener(this);
 
-		this.menu_store.add(this.menuItem_StoreCheck);
-		this.menuItem_StoreCheck.addActionListener(this);
+		this.menu_store.add(this.menuItem_InventoryCheck);
+		this.menuItem_InventoryCheck.addActionListener(this);
 
 		this.menu_list.add(this.menuItem_EnterManage);
 		this.menuItem_EnterManage.addActionListener(this);
@@ -284,6 +284,11 @@ public class FrmMain extends JFrame implements ActionListener
 				FrmWorkerManager dlg = new FrmWorkerManager(this, "工作人员管理", true);
 				dlg.setVisible(true);
 			}
+		}
+		else if (e.getSource() == menuItem_InventoryCheck)
+		{
+			FrmInventory_Check dlg = new FrmInventory_Check(this, "库存盘点", true);
+			dlg.setVisible(true);
 		}
 	}
 }

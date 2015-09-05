@@ -206,6 +206,7 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 			HouseManager hm = new HouseManager();
 			GoodsManager gm = new GoodsManager();
 			SupplierManager sm = new SupplierManager();
+			StoreManager storeManager = new StoreManager();
 
 			try
 			{
@@ -258,9 +259,29 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 			store.setStoreAmount(enter.getEnterAmount());
 			store.setStorePrice(enter.getEnterPrice());
 			store.setUnit(goods.getUnit());
+			
+			//判断是否为相同批次 若为相同批次 直接增加库存数量
+			Store originStore = storeManager.searchStore(store.getHouseId(), store.getBatchId(), store.getGoodsId());
+			if(originStore != null)
+			{
+				originStore.setStoreAmount(originStore.getStoreAmount() + store.getStoreAmount());
+				try
+				{
+					(new StoreManager()).modifyStore(originStore);
+				}
+				catch (BaseException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			else
+			{
+				(new StoreManager()).createStore(store);
+			}
 
 			(new EnterManager()).createEnter(enter);
-			(new StoreManager()).createStore(store);
+			
 			JOptionPane.showMessageDialog(null, "创建成功", "成功",
 					JOptionPane.INFORMATION_MESSAGE);
 			this.setVisible(false);
