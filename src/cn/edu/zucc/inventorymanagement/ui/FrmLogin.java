@@ -92,6 +92,15 @@ public class FrmLogin extends JDialog implements ActionListener
 				{
 					WorkerManager.currentWorker = (new WorkerManager())
 							.searchWorker(edtWorkerId.getText());
+					
+					//判断用户操作权限 如果是1 则已被冻结
+					if(WorkerManager.currentWorker.getWorkerPermission() == 1)
+					{
+						JOptionPane.showMessageDialog(null, "该账户已被冻结", "错误",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
 					this.setVisible(false);
 				}
 			}

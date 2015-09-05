@@ -192,7 +192,7 @@ public class FrmMain extends JFrame implements ActionListener
 				{
 					return;
 				}
-				 FrmMain.this.reloadStoreTabel();
+				FrmMain.this.reloadStoreTabel();
 			}
 
 		});
@@ -269,6 +269,21 @@ public class FrmMain extends JFrame implements ActionListener
 		{
 			FrmModifyPwd dlg = new FrmModifyPwd(this, "密码修改", true);
 			dlg.setVisible(true);
+		}
+		else if (e.getSource() == menuItem_WorkerManage)
+		{
+			//判断操作权限 如果是3 则为超级管理员 如果不是3 则无法进行用户管理
+			if(WorkerManager.currentWorker.getWorkerPermission() != 3)
+			{
+				JOptionPane.showMessageDialog(null, "操作权限不足", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			else
+			{
+				FrmWorkerManager dlg = new FrmWorkerManager(this, "工作人员管理", true);
+				dlg.setVisible(true);
+			}
 		}
 	}
 }
