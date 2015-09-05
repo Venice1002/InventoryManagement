@@ -31,8 +31,6 @@ public class FrmReturnManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private Button btnAdd = new Button("ÍË¿â");
-	private JTextField edtKeyword = new JTextField(10);
-	private Button btnSearch = new Button("²éÑ¯");
 	private Button btnCheck = new Button("ÅÌ²é");
 
 	private Object tblExitTitle[] =
@@ -74,8 +72,6 @@ public class FrmReturnManager extends JDialog implements ActionListener
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-		toolBar.add(edtKeyword);
-		toolBar.add(btnSearch);
 		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -94,7 +90,6 @@ public class FrmReturnManager extends JDialog implements ActionListener
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-		this.btnSearch.addActionListener(this);
 		this.btnCheck.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
@@ -123,10 +118,6 @@ public class FrmReturnManager extends JDialog implements ActionListener
 			Exit exit = (new ExitManager()).searchExit(exitId);
 			FrmReturn_Add dlg = new FrmReturn_Add(this, "ÍË¿â", true, exit);
 			dlg.setVisible(true);
-			this.reloadExitTabel();
-		}
-		else if (e.getSource() == this.btnSearch)
-		{
 			this.reloadExitTabel();
 		}
 		else if (e.getSource() == this.btnCheck)

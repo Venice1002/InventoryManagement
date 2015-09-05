@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.zucc.inventorymanagement.model.Enter;
 import cn.edu.zucc.inventorymanagement.model.Exit;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
@@ -102,7 +103,68 @@ public class ExitManager
 		}
 		return exit;
 	}
-
+	
+	public List<Exit> searchExit(String lastTime, String nextTime, int listId, int houseId)
+	{
+		List<Exit> result = new ArrayList<Exit>();
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from [Exit] where 1=1 ";
+			if(!lastTime.equals("")  && !nextTime.equals("") )
+			{
+				sql += "and exitTime between '" + lastTime + "' and '" + nextTime +"'";
+			}
+			if(listId != 0)
+			{
+				sql += "and exitId = '"+ listId + "'";
+			}
+			if(houseId != 0)
+			{
+				sql += "and houseId = '"+ houseId + "'";
+			}
+			sql += " order by exitId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				Exit exit = new Exit();
+				exit.setExitId(rs.getInt(1));
+				exit.setHouseId(rs.getInt(2));
+				exit.setGoodsId(rs.getInt(3));
+				exit.setBatchId(rs.getInt(4));
+				exit.setCustomerId(rs.getInt(5));
+				exit.setExitAmount(rs.getFloat(6));
+				exit.setExitTime(rs.getDate(7));
+				exit.setExitPrice(rs.getFloat(8));
+				exit.setExitNote(rs.getString(9));
+				exit.setWorkerId(rs.getInt(10));
+				result.add(exit);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+	
 	public List<Exit> loadAllExit()
 	{
 		//加载所有出库表

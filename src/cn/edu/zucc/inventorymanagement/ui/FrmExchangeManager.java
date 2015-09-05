@@ -29,8 +29,6 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private Button btnExchange = new Button("“∆ø‚");
-	private JTextField edtKeyword = new JTextField(10);
-	private Button btnSearch = new Button("≤È—Ø");
 	private Button btnCheck = new Button("≈Ã≤È");
 
 	private Object tblStore[] =
@@ -68,8 +66,6 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnExchange);
-		toolBar.add(edtKeyword);
-		toolBar.add(btnSearch);
 		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -88,7 +84,6 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 		this.validate();
 
 		this.btnExchange.addActionListener(this);
-		this.btnSearch.addActionListener(this);
 		this.btnCheck.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
@@ -117,10 +112,6 @@ public class FrmExchangeManager extends JDialog implements ActionListener
 			Store store = (new StoreManager()).searchStore(storeId);
 			FrmExchange_Add dlg = new FrmExchange_Add(this, "“∆ø‚", true, store);
 			dlg.setVisible(true);
-			this.reloadStoreTabel();
-		}
-		else if (e.getSource() == this.btnSearch)
-		{
 			this.reloadStoreTabel();
 		}
 		else if (e.getSource() == this.btnCheck)

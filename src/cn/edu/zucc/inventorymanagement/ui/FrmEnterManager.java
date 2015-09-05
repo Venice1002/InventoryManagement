@@ -31,8 +31,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private Button btnAdd = new Button("入库");
-	private JTextField edtKeyword = new JTextField(10);
-	private Button btnSearch = new Button("查询");
 	private Button btnCheck = new Button("盘查");
 	private Object tblHouseTitle[] =
 	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
@@ -65,8 +63,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-		toolBar.add(edtKeyword);
-		toolBar.add(btnSearch);
 		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -85,7 +81,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-		this.btnSearch.addActionListener(this);
 		this.btnCheck.addActionListener(this);
 		
 		this.addWindowListener(new WindowAdapter()
@@ -123,10 +118,6 @@ public class FrmEnterManager extends JDialog implements ActionListener
 			}
 			FrmEnter_Add dlg = new FrmEnter_Add(this, "新建入库单", true, house);
 			dlg.setVisible(true);
-			this.reloadHouseTable();
-		}
-		else if (e.getSource() == this.btnSearch)
-		{
 			this.reloadHouseTable();
 		}
 		else if (e.getSource() == btnCheck)

@@ -29,8 +29,6 @@ public class FrmExitManager extends JDialog implements ActionListener
 {
 	private JPanel toolBar = new JPanel();
 	private Button btnAdd = new Button("出库");
-	private JTextField edtKeyword = new JTextField(10);
-	private Button btnSearch = new Button("查询");
 	private Button btnCheck = new Button("盘查");
 
 	private Object tblStore[] =
@@ -68,8 +66,6 @@ public class FrmExitManager extends JDialog implements ActionListener
 		super(f, s, b);
 		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		toolBar.add(btnAdd);
-		toolBar.add(edtKeyword);
-		toolBar.add(btnSearch);
 		toolBar.add(btnCheck);
 
 		this.getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -88,7 +84,6 @@ public class FrmExitManager extends JDialog implements ActionListener
 		this.validate();
 
 		this.btnAdd.addActionListener(this);
-		this.btnSearch.addActionListener(this);
 		this.btnCheck.addActionListener(this);
 		this.addWindowListener(new WindowAdapter()
 		{
@@ -117,10 +112,6 @@ public class FrmExitManager extends JDialog implements ActionListener
 			Store store = (new StoreManager()).searchStore(storeId);
 			FrmExit_Add dlg = new FrmExit_Add(this, "出库", true, store);
 			dlg.setVisible(true);
-			this.reloadStoreTabel();
-		}
-		else if (e.getSource() == this.btnSearch)
-		{
 			this.reloadStoreTabel();
 		}
 		else if (e.getSource() == this.btnCheck)

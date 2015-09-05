@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Enter;
+import cn.edu.zucc.inventorymanagement.model.Exchange;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
 public class EnterManager
@@ -98,6 +99,67 @@ public class EnterManager
 				}
 		}
 		return enter;
+	}
+	
+	public List<Enter> searchEnter(String lastTime, String nextTime, int listId, int houseId)
+	{
+		List<Enter> result = new ArrayList<Enter>();
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Enter where 1=1 ";
+			if(!lastTime.equals("")  && !nextTime.equals("") )
+			{
+				sql += "and enterTime between '" + lastTime + "' and '" + nextTime +"'";
+			}
+			if(listId != 0)
+			{
+				sql += "and enterId = '"+ listId + "'";
+			}
+			if(houseId != 0)
+			{
+				sql += "and houseId = '"+ houseId + "'";
+			}
+			sql += " order by enterId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				Enter enter = new Enter();
+				enter.setEnterId(rs.getInt(1));
+				enter.setHouseId(rs.getInt(2));
+				enter.setGoodsId(rs.getInt(3));
+				enter.setSupplierId(rs.getInt(4));
+				enter.setEnterAmount(rs.getFloat(5));
+				enter.setEnterTime(rs.getDate(6));
+				enter.setEnterPrice(rs.getFloat(7));
+				enter.setBatchId(rs.getInt(8));
+				enter.setEnterNote(rs.getString(9));
+				enter.setWorkerId(rs.getInt(10));
+				result.add(enter);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 	public List<Enter> loadAllEnter()

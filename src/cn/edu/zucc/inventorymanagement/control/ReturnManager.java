@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.zucc.inventorymanagement.model.Enter;
 import cn.edu.zucc.inventorymanagement.model.Return;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
@@ -101,6 +102,67 @@ public class ReturnManager
 				}
 		}
 		return re;
+	}
+	
+	public List<Return> searchReturn(String lastTime, String nextTime, int listId, int houseId)
+	{
+		List<Return> result = new ArrayList<Return>();
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from [Return] where 1=1 ";
+			if(!lastTime.equals("")  && !nextTime.equals("") )
+			{
+				sql += "and returnTime between '" + lastTime + "' and '" + nextTime +"'";
+			}
+			if(listId != 0)
+			{
+				sql += "and returnId = '"+ listId + "'";
+			}
+			if(houseId != 0)
+			{
+				sql += "and houseId = '"+ houseId + "'";
+			}
+			sql += " order by returnId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				Return re = new Return();
+				re.setReturnId(rs.getInt(1));
+				re.setCustomerId(rs.getInt(2));
+				re.setHouseId(rs.getInt(3));
+				re.setGoodsId(rs.getInt(4));
+				re.setBatchId(rs.getInt(5));
+				re.setReturnAmount(rs.getFloat(6));
+				re.setReturnTime(rs.getDate(7));
+				re.setReturnNote(rs.getString(8));
+				re.setWorkerId(rs.getInt(9));
+				re.setReturnPrice(rs.getFloat(10));
+				result.add(re);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 	public List<Return> loadAllReturn()

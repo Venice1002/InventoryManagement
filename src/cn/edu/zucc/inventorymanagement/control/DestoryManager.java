@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.zucc.inventorymanagement.model.Destory;
+import cn.edu.zucc.inventorymanagement.model.Enter;
 import cn.edu.zucc.inventorymanagement.util.DBUtil;
 
 public class DestoryManager
@@ -92,6 +93,65 @@ public class DestoryManager
 				}
 		}
 		return destory;
+	}
+	
+	public List<Destory> searchDestory(String lastTime, String nextTime, int listId, int houseId)
+	{
+		List<Destory> result = new ArrayList<Destory>();
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from [Destory] where 1=1 ";
+			if(!lastTime.equals("")  && !nextTime.equals("") )
+			{
+				sql += "and destoryTime between '" + lastTime + "' and '" + nextTime +"'";
+			}
+			if(listId != 0)
+			{
+				sql += "and destoryId = '"+ listId + "'";
+			}
+			if(houseId != 0)
+			{
+				sql += "and houseId = '"+ houseId + "'";
+			}
+			sql += " order by destoryId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				Destory destory = new Destory();
+				destory.setDestoryId(rs.getInt(1));
+				destory.setHouseId(rs.getInt(2));
+				destory.setGoodsId(rs.getInt(3));
+				destory.setBatchId(rs.getInt(4));
+				destory.setDestoryTime(rs.getDate(5));
+				destory.setDestoryAmount(rs.getFloat(6));
+				destory.setDestoryNote(rs.getString(7));
+				destory.setWorkerId(rs.getInt(8));
+				result.add(destory);
+			}
+		}
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
 	}
 
 	public List<Destory> loadAllDestory()
