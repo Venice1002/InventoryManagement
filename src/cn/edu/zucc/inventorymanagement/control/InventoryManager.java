@@ -30,7 +30,7 @@ public class InventoryManager
 			pst.setFloat(7, inventory.getReturnAmount());
 			pst.setFloat(8, inventory.getDestoryAmount());
 			pst.setFloat(9, inventory.getStoreAmount());
-			pst.setFloat(10, inventory.getAveragePrice());
+			pst.setString(10, inventory.getAveragePrice());
 			pst.execute();
 			pst.close();
 		}
@@ -109,7 +109,7 @@ public class InventoryManager
 				inventory.setReturnAmount(rs.getFloat(7));
 				inventory.setDestoryAmount(rs.getFloat(8));
 				inventory.setStoreAmount(rs.getFloat(9));
-				inventory.setAveragePrice(rs.getFloat(10));
+				inventory.setAveragePrice(rs.getString(10));
 				result.add(inventory);
 			}
 		}
@@ -147,17 +147,67 @@ public class InventoryManager
 			java.sql.ResultSet rs = pst.executeQuery();
 			while (rs.next())
 			{
+				int houseId = rs.getInt(2);
+				int goodsId = rs.getInt(3);
 				Inventory inventory = new Inventory();
 				inventory.setHouseId(rs.getInt(2));
 				inventory.setGoodsId(rs.getInt(3));
-				inventory.setEnterAmount((new EnterManager().countEnterAmount(lastTime, nextTime, inventory.getHouseId(), inventory.getGoodsId())));
-//				inventory.setExitAmount(rs.getFloat(4));
-//				inventory.setExchangeInAmount(rs.getFloat(5));
-//				inventory.setExchangeOutAmount(rs.getFloat(6));
-//				inventory.setReturnAmount(rs.getFloat(7));
-//				inventory.setDestoryAmount(rs.getFloat(8));
-//				inventory.setStoreAmount(rs.getFloat(9));
-//				inventory.setAveragePrice(rs.getFloat(10));
+				inventory.setEnterAmount((new EnterManager().countEnterAmount(lastTime, nextTime, houseId, goodsId)));
+				inventory.setExitAmount((new ExitManager().countExitAmount(lastTime, nextTime, houseId, goodsId)));
+				inventory.setExchangeInAmount((new ExchangeManager()).countExchangeInAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setExchangeOutAmount((new ExchangeManager()).countExchangeOutAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setReturnAmount((new ReturnManager()).countReturnAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setDestoryAmount((new DestoryManager()).countDestoryAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setStoreAmount((new StoreManager()).countStoreAmount(houseId, goodsId));
+				inventory.setAveragePrice((new EnterManager()).countAveragePrice(lastTime, nextTime, houseId, goodsId));
+				this.createInventory(inventory);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+	}
+	
+	public void createAllInventory(String lastTime, String nextTime, int houseId)
+	{
+		//加载所有库存清单
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Store where houseId = '" + houseId + "'";
+			sql += " order by houseId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				int goodsId = rs.getInt(3);
+				Inventory inventory = new Inventory();
+				inventory.setHouseId(houseId);
+				inventory.setGoodsId(rs.getInt(3));
+				inventory.setEnterAmount((new EnterManager().countEnterAmount(lastTime, nextTime, houseId, goodsId)));
+				inventory.setExitAmount((new ExitManager().countExitAmount(lastTime, nextTime, houseId, goodsId)));
+				inventory.setExchangeInAmount((new ExchangeManager()).countExchangeInAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setExchangeOutAmount((new ExchangeManager()).countExchangeOutAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setReturnAmount((new ReturnManager()).countReturnAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setDestoryAmount((new DestoryManager()).countDestoryAmount(lastTime, nextTime, houseId, goodsId));
+				inventory.setStoreAmount((new StoreManager()).countStoreAmount(houseId, goodsId));
+				inventory.setAveragePrice((new EnterManager()).countAveragePrice(lastTime, nextTime, houseId, goodsId));
 				this.createInventory(inventory);
 			}
 		}

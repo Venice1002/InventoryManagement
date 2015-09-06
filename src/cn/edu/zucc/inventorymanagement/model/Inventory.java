@@ -15,7 +15,7 @@ public class Inventory
 	private float returnAmount;
 	private float destoryAmount;
 	private float storeAmount;
-	private float averagePrice;
+	private String averagePrice;
 
 	public int getHouseId()
 	{
@@ -107,12 +107,12 @@ public class Inventory
 		this.storeAmount = storeAmount;
 	}
 
-	public float getAveragePrice()
+	public String getAveragePrice()
 	{
 		return this.averagePrice;
 	}
 
-	public void setAveragePrice(float averagePrice)
+	public void setAveragePrice(String averagePrice)
 	{
 		this.averagePrice = averagePrice;
 	}

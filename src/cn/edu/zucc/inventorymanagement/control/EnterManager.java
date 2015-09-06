@@ -2,6 +2,7 @@ package cn.edu.zucc.inventorymanagement.control;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,6 +256,55 @@ public class EnterManager
 				}
 		}
 		return result;
+	}
+	
+	public String countAveragePrice(String lastTime, String nextTime,
+			int houseId, int goodsId)
+	{
+		double result = 0;
+		float sum = 0;
+		float amount = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Enter where houseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			if (!lastTime.equals("") && !nextTime.equals(""))
+			{
+				sql += "and enterTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
+			}
+			sql += " order by enterId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				sum += rs.getFloat(5) * rs.getFloat(7);
+				amount += rs.getFloat(5);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		DecimalFormat dcmFmt = new DecimalFormat("0.000");
+		result = sum / amount;
+		return dcmFmt.format(result);
 	}
 
 }

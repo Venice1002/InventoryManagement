@@ -213,5 +213,49 @@ public class ExitManager
 		}
 		return result;
 	}
+	
+	public float countExitAmount(String lastTime, String nextTime,
+			int houseId, int goodsId)
+	{
+		float result = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from [Exit] where houseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			if (!lastTime.equals("") && !nextTime.equals(""))
+			{
+				sql += "and exitTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
+			}
+			sql += " order by exitId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				result += rs.getFloat(6);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
 
 }

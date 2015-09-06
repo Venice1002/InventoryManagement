@@ -206,5 +206,97 @@ public class ExchangeManager
 		}
 		return result;
 	}
+	
+	public float countExchangeInAmount(String lastTime, String nextTime,
+			int houseId, int goodsId)
+	{
+		//移入时 houseId应为nextHouseId
+		//移出时 houseId应为lastHouseId
+		float result = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Exchange where nextHouseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			if (!lastTime.equals("") && !nextTime.equals(""))
+			{
+				sql += "and exchangeTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
+			}
+			sql += " order by exchangeId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				result += rs.getFloat(6);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
+	
+	public float countExchangeOutAmount(String lastTime, String nextTime,
+			int houseId, int goodsId)
+	{
+		//移入时 houseId应为nextHouseId
+		//移出时 houseId应为lastHouseId
+		float result = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Exchange where lastHouseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			if (!lastTime.equals("") && !nextTime.equals(""))
+			{
+				sql += "and exchangeTime between '" + lastTime + "' and '"
+						+ nextTime + "'";
+			}
+			sql += " order by exchangeId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				result += rs.getFloat(6);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
 
 }

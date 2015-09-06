@@ -287,5 +287,43 @@ public class StoreManager
 		}
 		return result;
 	}
+	
+	public float countStoreAmount(	int houseId, int goodsId)
+	{
+		float result = 0;
+		Connection conn = null;
+		try
+		{
+			conn = DBUtil.getConnection();
+			String sql;
+			sql = "select * from Store where houseId = '" + houseId
+					+ "' and goodsId = '" + goodsId + "'";
+			sql += " order by storeId";
+			java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+			java.sql.ResultSet rs = pst.executeQuery();
+			while (rs.next())
+			{
+				result += rs.getFloat(4);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (conn != null)
+				try
+				{
+					conn.close();
+				}
+				catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return result;
+	}
 
 }
