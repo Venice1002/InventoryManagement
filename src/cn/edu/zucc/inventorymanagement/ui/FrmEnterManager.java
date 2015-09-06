@@ -33,7 +33,7 @@ public class FrmEnterManager extends JDialog implements ActionListener
 	private Button btnAdd = new Button("入库");
 	private Button btnCheck = new Button("盘查");
 	private Object tblHouseTitle[] =
-	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
+	{ "编号", "仓库名称", "仓库类型", "仓库等级", "仓库状态", "联系人" };
 	private Object tblHouseData[][];
 	List<House> houseList = null;
 	DefaultTableModel tabHouseModel = new DefaultTableModel();
@@ -48,10 +48,10 @@ public class FrmEnterManager extends JDialog implements ActionListener
 		{
 			tblHouseData[i][0] = houseList.get(i).getHouseId();
 			tblHouseData[i][1] = houseList.get(i).getHouseName();
-			tblHouseData[i][2] = houseList.get(i).getTotalAmount();
-			tblHouseData[i][3] = houseList.get(i).getTotalPrice();
+			tblHouseData[i][2] = houseList.get(i).getHouseType();
+			tblHouseData[i][3] = houseList.get(i).getHouseLevel();
 			tblHouseData[i][4] = houseList.get(i).getHouseState();
-			tblHouseData[i][5] = "更多";
+			tblHouseData[i][5] = houseList.get(i).getLinkman();
 		}
 		tabHouseModel.setDataVector(tblHouseData, tblHouseTitle);
 		this.dataHouse.validate();

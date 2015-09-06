@@ -222,6 +222,13 @@ public class FrmEnter_Add extends JDialog implements ActionListener
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
+			
+			if(goods.getGoodsLevel() > house.getHouseLevel())
+			{
+				JOptionPane.showMessageDialog(null, "物料非法", "提示",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			if (edtEnterTime.getText().equals(""))
 				enter.setEnterTime(new java.sql.Timestamp(System

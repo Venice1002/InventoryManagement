@@ -62,7 +62,7 @@ public class FrmMain extends JFrame implements ActionListener
 	private JPanel statusBar = new JPanel();
 
 	private Object tblHouseTitle[] =
-	{ "编号", "仓库名称", "库存总量", "库存总金额", "仓库状态", "更多" };
+	{ "编号", "仓库名称", "仓库类型", "仓库等级", "仓库状态", "联系人" };
 	private Object tblHouseData[][];
 	DefaultTableModel tabHouseModel = new DefaultTableModel();
 	private JTable dataHouse = new JTable(tabHouseModel);
@@ -85,10 +85,10 @@ public class FrmMain extends JFrame implements ActionListener
 		{
 			tblHouseData[i][0] = houseList.get(i).getHouseId();
 			tblHouseData[i][1] = houseList.get(i).getHouseName();
-			tblHouseData[i][2] = houseList.get(i).getTotalAmount();
-			tblHouseData[i][3] = houseList.get(i).getTotalPrice();
+			tblHouseData[i][2] = houseList.get(i).getHouseType();
+			tblHouseData[i][3] = houseList.get(i).getHouseLevel();
 			tblHouseData[i][4] = houseList.get(i).getHouseState();
-			tblHouseData[i][5] = "更多";
+			tblHouseData[i][5] = houseList.get(i).getLinkman();
 		}
 		tabHouseModel.setDataVector(tblHouseData, tblHouseTitle);
 		this.dataHouse.validate();
