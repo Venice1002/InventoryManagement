@@ -38,8 +38,6 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenu menu_supAndCus = new JMenu("供应商/客户管理");
 	private JMenu menu_store = new JMenu("库存管理");
 	private JMenu menu_list = new JMenu("清单管理");
-	private JMenu menu_static = new JMenu("查询统计");
-	private JMenu menu_more = new JMenu("更多");
 
 	private JMenuItem menuItem_WorkerManage = new JMenuItem("用户管理");
 	private JMenuItem menuItem_HouseManage = new JMenuItem("仓库管理");
@@ -54,9 +52,6 @@ public class FrmMain extends JFrame implements ActionListener
 	private JMenuItem menuItem_DestoryManage = new JMenuItem("报废管理");
 
 	private JMenuItem menuItem_modifyPwd = new JMenuItem("密码修改");
-
-	private JMenuItem menuItem_monthStatic = new JMenuItem("本月统计");
-	private JMenuItem menuItem_timeStatic = new JMenuItem("时间统计");
 
 	private FrmLogin dlgLogin = null;
 	private JPanel statusBar = new JPanel();
@@ -162,12 +157,8 @@ public class FrmMain extends JFrame implements ActionListener
 		this.menu_list.add(this.menuItem_DestoryManage);
 		this.menuItem_DestoryManage.addActionListener(this);
 
-		this.menu_static.add(this.menuItem_monthStatic);
-		this.menuItem_monthStatic.addActionListener(this);
-		this.menu_static.add(this.menuItem_timeStatic);
-		this.menuItem_timeStatic.addActionListener(this);
 
-		this.menu_more.add(this.menuItem_modifyPwd);
+		this.menu_system.add(this.menuItem_modifyPwd);
 		this.menuItem_modifyPwd.addActionListener(this);
 
 		menubar.add(menu_system);
@@ -175,8 +166,6 @@ public class FrmMain extends JFrame implements ActionListener
 		menubar.add(menu_supAndCus);
 		menubar.add(menu_store);
 		menubar.add(menu_list);
-		menubar.add(menu_static);
-		menubar.add(menu_more);
 		this.setJMenuBar(menubar);
 
 		this.getContentPane().add(new JScrollPane(this.dataHouse),
